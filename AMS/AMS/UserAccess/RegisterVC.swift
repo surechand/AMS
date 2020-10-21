@@ -230,10 +230,6 @@ class RegisterVC: FormViewController {
                                     // set user document
                                     let userDocument = UserDocument(uid: user.uid)
                                     userDocument.setUserDocument(name: nameRow!.value!, surname: surnameRow!.value!, email: emailRow!.value!)
-                                    // set achievement document with starting stats
-                                    let achievementStats = ["Workout record" : [1, 0, 10], "FOR TIME record"  : [1, 0, 5], "TABATA record" : [1, 0, 5], "AMRAP record" : [1, 0, 5], "EMOM record" : [1, 0, 5], "Time record" : [1, 0, 60]]
-                                    let achievementDocument = AchievementDocument(uid: user.uid)
-                                    achievementDocument.setAchievementDocument(achievementDictionary: achievementStats)
                                 }
                                 self!.performSegue(withIdentifier: "RegisteredSegue", sender: self!.RegisteredButton)
                             }

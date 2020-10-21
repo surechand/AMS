@@ -22,17 +22,8 @@ class DisplayProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     var theme: UIColor?
     var gradientImage = UIImage()
     
-    var achievements = [AchievementCVModel]()
-    var achievementStats = [String:[Any]]()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.addAchievements()
-        
-        self.achievementCollectionView.dataSource = self
-        self.achievementCollectionView.delegate = self
-        self.achievementCollectionView.register(UINib.init(nibName: "AchievementCVCell", bundle: nil), forCellWithReuseIdentifier: "AchievementCVCell")
         
         imageViewSetup()
         labelSetup()
