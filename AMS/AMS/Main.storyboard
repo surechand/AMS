@@ -94,7 +94,7 @@
             <objects>
                 <viewController id="NwI-OF-u6C" customClass="NewPlanVC" customModule="AMS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0V2-o3-x2a">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fit-lA-ZTZ">
@@ -123,7 +123,7 @@
             <objects>
                 <viewController id="nkv-tg-Shd" customClass="WeekVC" customModule="AMS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="geC-bm-DTS">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X7R-iy-7XU">
@@ -513,6 +513,7 @@
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="PbY-ZA-oIJ"/>
                     </view>
                     <connections>
@@ -615,17 +616,20 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <segue destination="49e-Tb-3d3" kind="presentation" identifier="RegisteredSegue" modalPresentationStyle="overFullScreen" id="cbm-Vw-iTM"/>
+                                    <segue destination="cFd-7E-dwv" kind="presentation" identifier="RegisterSecondStepSegue" modalPresentationStyle="fullScreen" id="YZI-oG-d9c"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="Uwv-n4-kjN"/>
                     </view>
+                    <connections>
+                        <outlet property="GoToSecondStepButton" destination="3x6-6W-VmG" id="6ii-eg-GOb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xHC-BI-ZoR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4775" y="-868"/>
+            <point key="canvasLocation" x="-6016" y="-869"/>
         </scene>
         <!--Edit User DataVC-->
         <scene sceneID="NVK-LV-TxY">
@@ -701,11 +705,39 @@
             </objects>
             <point key="canvasLocation" x="-2339.130434782609" y="-869.19642857142856"/>
         </scene>
+        <!--Register Second StepVC-->
+        <scene sceneID="Dg5-yg-7IU">
+            <objects>
+                <viewController id="cFd-7E-dwv" customClass="RegisterSecondStepVC" customModule="AMS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aOs-eY-dDA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e5G-Kt-S9G">
+                                <rect key="frame" x="184" y="807" width="46" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <segue destination="49e-Tb-3d3" kind="presentation" identifier="RegisteredSegue" modalPresentationStyle="fullScreen" id="Ly6-xb-Yf1"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="5l3-Jq-gZr"/>
+                    </view>
+                    <connections>
+                        <outlet property="RegisteredButton" destination="e5G-Kt-S9G" id="8K8-pP-jOO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wkw-h3-R8u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4775.36231884058" y="-869.19642857142856"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="GFb-mv-kpY"/>
-        <segue reference="3FS-om-s35"/>
-        <segue reference="hgd-xa-kap"/>
+        <segue reference="DY2-Ei-qWc"/>
+        <segue reference="Ly6-xb-Yf1"/>
         <segue reference="DEZ-He-KPz"/>
         <segue reference="Hp4-tr-CaI"/>
         <segue reference="POM-Uh-55S"/>

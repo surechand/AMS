@@ -35,4 +35,20 @@ class UserDocument : Document {
         }
     }
     
+    func setUserExtraData (address: String, city: String, postcode: String, country: String, phoneNumber: String) {
+        self.userRef!.setData([
+            "address": address,
+            "city": city,
+            "postcode": postcode,
+            "country": country,
+            "phoneNumber": phoneNumber
+        ], merge: true) { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
+    }
+    
 }
