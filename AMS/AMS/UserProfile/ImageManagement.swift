@@ -18,16 +18,6 @@ class ImageManagement {
     let storage = Storage.storage()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    func saveImage(data: Data) {
-        self.saveToStorage(data: data)
-        let imageInstance = UserImageEntity(context: context)
-        imageInstance.image = data
-        do {
-            try context.save()
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
     func saveToStorage (data: Data) {
         let storageRef = storage.reference()
         if let user = user {
@@ -56,33 +46,6 @@ class ImageManagement {
         }
     }
     
-    func fetchImage() -> [UserImageEntity] {
-        var fetchingImage = [UserImageEntity]()
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "UserImageEntity")
-        do {
-            fetchingImage = try context.fetch(fetchRequest) as! [UserImageEntity]
-        } catch {
-            print("Error while fetching the image")
-        }
-        //        no image in local storage, check if remote storage can provide one
-        if(fetchingImage.isEmpty) {
-            if let user = user {
-                let storageRef = storage.reference()
-                let userPictureRef = storageRef.child("UserProfileImages/" + (user.displayName?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "") + ".jpg")
-                userPictureRef.getData(maxSize: 1 * 4096 * 4096) { data, error in
-                    if let error = error {
-                        print(error)
-                    } else {
-                        self.saveImage(data: data!)
-                        let imageInstance = UserImageEntity(context: self.context)
-                        imageInstance.image = data
-                        fetchingImage.append(imageInstance)
-                    }
-                }
-            }
-        }
-        return fetchingImage
-    }
     
     func deleteImage () {
         let storageRef = storage.reference()
@@ -99,18 +62,5 @@ class ImageManagement {
         }
     }
     
-    func deleteImageFromCoreData() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "UserImageEntity")
-        do {
-            guard let workoutEntities = try? managedObjectContext.fetch(fetchRequest) else { return }
-
-            for workoutEntity in workoutEntities {
-                managedObjectContext.delete(workoutEntity)
-            }
-        }
-    }
 }
 

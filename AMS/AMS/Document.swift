@@ -11,9 +11,9 @@ import Firebase
 
 class Document {
     let db = Firestore.firestore()
-    var uid: String
+    var key: String
     
-    init(uid: String) {
-        self.uid = uid
+    init(key: String) {
+        self.key = key
     }
 }

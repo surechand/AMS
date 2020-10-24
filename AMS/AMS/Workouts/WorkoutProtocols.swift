@@ -1,5 +1,5 @@
 //
-//  WorkoutProtocols.swift
+//  AuctionProtocols.swift
 //  Lifty
 //
 //  Created by Angelika Jeziorska on 16/04/2020.
@@ -9,10 +9,6 @@
 import Foundation
 import Eureka
 
-protocol passWorkout {
-    func finishPassing (chosenWorkout: Workout)
-}
-
-protocol passExercise {
-    func finishPassing (chosenExercise: Exercise, chosenRow: ButtonRowOf<String>?)
+protocol passAuction {
+    func finishPassing (chosenAuction: Auction)
 }

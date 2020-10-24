@@ -20,10 +20,10 @@ protocol passDay {
     func finishPassing (chosenDay: Day, chosenDayIndex: Int?)
 }
 
-protocol passWorkoutFromPlans {
-    func finishPassingFromPlans (chosenWorkout: Workout)
+protocol passAuctionFromPlans {
+    func finishPassingFromPlans (chosenAuction: Auction)
 }
 
-protocol passWorkoutAndIndex {
-    func finishPassingWithIndex (chosenWorkout: Workout, chosenWorkoutIndex: Int?)
+protocol passAuctionAndIndex {
+    func finishPassingWithIndex (chosenAuction: Auction, chosenAuctionIndex: Int?)
 }

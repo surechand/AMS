@@ -1,5 +1,5 @@
 //
-//  DisplayWorkoutVC.swift
+//  DisplayAuctionVC.swift
 //  Lifty
 //
 //  Created by Angelika Jeziorska on 19/03/2020.
@@ -8,19 +8,19 @@
 
 import UIKit
 
-class DisplayWorkoutVC: UIViewController, passWorkout, passWorkoutFromPlans, UITextViewDelegate {
+class DisplayAuctionVC: UIViewController, passAuction, passAuctionFromPlans, UITextViewDelegate {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var specyficsLabel: UILabel!
-    @IBOutlet weak var startWorkoutButton: UIButton!
+    @IBOutlet weak var startAuctionButton: UIButton!
     
-    @IBOutlet weak var exercisesTextView: UITextView!
+    @IBOutlet weak var biddersTextView: UITextView!
     @IBOutlet weak var timeRepsTextView: UITextView!
     
-    var chosenWorkout = Workout(name: "")
+    var chosenAuction = Auction(name: "")
     
-    var workoutDelegate: passWorkout?
+    var auctionDelegate: passAuction?
     
     var theme: UIColor?
     var gradientImage = UIImage()
@@ -29,28 +29,18 @@ class DisplayWorkoutVC: UIViewController, passWorkout, passWorkoutFromPlans, UIT
         super.viewDidLoad()
         
         self.setLabels()
-        self.setButton()
-        
-        checkType()
         
         self.view.backgroundColor = UIColor.white
         
     }
     
     func setLabels () {
-        titleLabel.text = " " +  self.chosenWorkout.name + " "
-        typeLabel.text = " " + self.chosenWorkout.type
+        titleLabel.text = " " +  self.chosenAuction.name + " "
+        typeLabel.text = " " + self.chosenAuction.type
         titleLabel.layer.borderColor = UIColor(patternImage: gradientImage).cgColor
         titleLabel.layer.borderWidth = 3.0
         titleLabel.textColor = theme
         typeLabel.textColor = UIColor.lightGray
-    }
-    
-    func setButton () {
-        startWorkoutButton.layer.borderColor = UIColor(patternImage: gradientImage).cgColor
-        startWorkoutButton.layer.borderWidth = 3.0
-        startWorkoutButton.setTitle("Start workout", for: .normal)
-        startWorkoutButton.setTitleColor(theme, for: .normal)
     }
     
     func setTextViewAppearance(textView: UITextView) {
@@ -64,101 +54,92 @@ class DisplayWorkoutVC: UIViewController, passWorkout, passWorkoutFromPlans, UIT
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView == exercisesTextView{
-            timeRepsTextView.contentOffset = exercisesTextView.contentOffset
+        if scrollView == biddersTextView{
+            timeRepsTextView.contentOffset = biddersTextView.contentOffset
         }else{
-            exercisesTextView.contentOffset = timeRepsTextView.contentOffset
+            biddersTextView.contentOffset = timeRepsTextView.contentOffset
         }
     }
     
     //    MARK: Protocol stubs.
     
-    func finishPassing(chosenWorkout: Workout) {
-        self.chosenWorkout = chosenWorkout
+    func finishPassing(chosenAuction: Auction) {
+        self.chosenAuction = chosenAuction
         self.theme = .systemIndigo
         self.gradientImage = CAGradientLayer.blueGradient(on: self.view)!
-        loadExercises()
         self.viewDidLoad()
     }
     
-    func finishPassingFromPlans(chosenWorkout: Workout) {
-        self.chosenWorkout = chosenWorkout
+    func finishPassingFromPlans(chosenAuction: Auction) {
+        self.chosenAuction = chosenAuction
         self.theme = .systemPink
         gradientImage = CAGradientLayer.pinkGradient(on: self.view)!
-        loadExercises()
         self.viewDidLoad()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationVC = segue.destination as? TimerVC{
-            self.workoutDelegate = destinationVC
-            self.workoutDelegate?.finishPassing(chosenWorkout: self.chosenWorkout)
-        }
     }
     
     //    MARK: Assigning data to labels and text views.
     
-    func checkType () {
-        var rounds: String?
-        specyficsLabel.text! = ""
-        specyficsLabel.text! += " " + " "
-        if (self.chosenWorkout.type != "AMRAP" && self.chosenWorkout.rounds>1) {
-            rounds = " rounds of:"
-        }
-        else {
-            rounds = " round of:"
-        }
-        switch self.chosenWorkout.type {
-        case "AMRAP":
-            specyficsLabel.text! +=  "Time cap: " +  (self.chosenWorkout.time) + "'. "
-        case "EMOM":
-            specyficsLabel.text! += "Every " + (self.chosenWorkout.time
-                ) + ". "
-            specyficsLabel.text! +=  String(self.chosenWorkout.rounds) + rounds!
-        case "FOR TIME":
-            specyficsLabel.text! += "Time cap: " +  (self.chosenWorkout.time) + "'. "
-            specyficsLabel.text! += String(self.chosenWorkout.rounds) + rounds!
-        case "TABATA":
-            specyficsLabel.text! += (self.chosenWorkout.time) + " on " + (self.chosenWorkout.restTime) + " off. "
-            specyficsLabel.text! +=  String(self.chosenWorkout.rounds) + rounds!
-        default:
-            specyficsLabel.text! = ""
-        }
-        
-        specyficsLabel.layer.borderColor = UIColor(patternImage: gradientImage).cgColor
-        specyficsLabel.layer.borderWidth = 3.0
-        specyficsLabel.textColor = theme
-        
-    }
+//    func checkType () {
+//        var rounds: String?
+//        specyficsLabel.text! = ""
+//        specyficsLabel.text! += " " + " "
+//        if (self.chosenAuction.type != "AMRAP" && self.chosenAuction.rounds>1) {
+//            rounds = " rounds of:"
+//        }
+//        else {
+//            rounds = " round of:"
+//        }
+//        switch self.chosenAuction.type {
+//        case "AMRAP":
+//            specyficsLabel.text! +=  "Time cap: " +  (self.chosenAuction.time) + "'. "
+//        case "EMOM":
+//            specyficsLabel.text! += "Every " + (self.chosenAuction.time
+//                ) + ". "
+//            specyficsLabel.text! +=  String(self.chosenAuction.rounds) + rounds!
+//        case "FOR TIME":
+//            specyficsLabel.text! += "Time cap: " +  (self.chosenAuction.time) + "'. "
+//            specyficsLabel.text! += String(self.chosenAuction.rounds) + rounds!
+//        case "TABATA":
+//            specyficsLabel.text! += (self.chosenAuction.time) + " on " + (self.chosenAuction.restTime) + " off. "
+//            specyficsLabel.text! +=  String(self.chosenAuction.rounds) + rounds!
+//        default:
+//            specyficsLabel.text! = ""
+//        }
+//
+//        specyficsLabel.layer.borderColor = UIColor(patternImage: gradientImage).cgColor
+//        specyficsLabel.layer.borderWidth = 3.0
+//        specyficsLabel.textColor = theme
+//
+//    }
     
-    func loadExercises () {
-        print(chosenWorkout.exercises.count)
-        for exercise in chosenWorkout.exercises {
-            print(exercise.exerciseName)
-            timeRepsTextView.text += "\n"
-            exercisesTextView.text += "\n"
-            if exercise.exerciseType == "Reps" {
-                timeRepsTextView.text += String(exercise.reps) + "\n"
-                print()
-                exercisesTextView.text += exercise.exerciseName + "\n"
-            }
-            else if exercise.exerciseType == "Time" {
-                timeRepsTextView.text += exercise.exerciseTime + "\n"
-                exercisesTextView.text += exercise.exerciseName + "\n"
-            }
-            if exercise.notes != " " && exercise.notes != "" {
-                let linesBefore = exercisesTextView.numberOfLines()
-                exercisesTextView.text += exercise.notes + "\n"
-                let linesAfter = exercisesTextView.numberOfLines()
-                for _ in 1...(linesAfter-linesBefore) {
-                    timeRepsTextView.text += "\n"
-                }
-            }
-        }
-        
-        self.setTextViewAppearance(textView: exercisesTextView)
-        self.setTextViewAppearance(textView: timeRepsTextView)
-    }
+//    func loadExercises () {
+//        print(chosenAuction.bidders.count)
+//        for exercise in chosenAuction.bidders {
+//            print(exercise.exerciseName)
+//            timeRepsTextView.text += "\n"
+//            biddersTextView.text += "\n"
+//            if exercise.exerciseType == "Reps" {
+//                timeRepsTextView.text += String(exercise.reps) + "\n"
+//                print()
+//                biddersTextView.text += exercise.exerciseName + "\n"
+//            }
+//            else if exercise.exerciseType == "Time" {
+//                timeRepsTextView.text += exercise.exerciseTime + "\n"
+//                biddersTextView.text += exercise.exerciseName + "\n"
+//            }
+//            if exercise.notes != " " && exercise.notes != "" {
+//                let linesBefore = biddersTextView.numberOfLines()
+//                biddersTextView.text += exercise.notes + "\n"
+//                let linesAfter = biddersTextView.numberOfLines()
+//                for _ in 1...(linesAfter-linesBefore) {
+//                    timeRepsTextView.text += "\n"
+//                }
+//            }
+//        }
+//
+//        self.setTextViewAppearance(textView: biddersTextView)
+//        self.setTextViewAppearance(textView: timeRepsTextView)
+//    }
 }
 
 //MARK: - UITextView extension for height adjustment.

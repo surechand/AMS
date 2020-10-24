@@ -1,5 +1,5 @@
 //
-//  ChooseWorkoutsVC.swift
+//  ChooseAuctionsVC.swift
 //  Lifty
 //
 //  Created by Angelika Jeziorska on 05/04/2020.
@@ -10,15 +10,15 @@ import UIKit
 import Eureka
 import Firebase
 
-class ChooseWorkoutsVC: FormViewController, passPlan, passWeek, passDay {
+class ChooseAuctionsVC: FormViewController, passPlan, passWeek, passDay {
     
-    var workoutDelegate: passWorkoutFromPlans?
-    var chosenWorkout = Workout(name: "")
-    var workouts = [Workout]()
+    var auctionDelegate: passAuctionFromPlans?
+    var chosenAuction = Auction(name: "")
+    var auctions = [Auction]()
     
     let viewCustomisation = ViewCustomisation()
     
-    let workoutsSelectable = SelectableSection<ImageCheckRow<String>>("Swipe right for workout preview", selectionType: .multipleSelection)
+    let auctionsSelectable = SelectableSection<ImageCheckRow<String>>("Swipe right for auction preview", selectionType: .multipleSelection)
     
     var chosenPlan = Plan (name: "")
     var chosenPlanIndex: Int?
@@ -32,7 +32,7 @@ class ChooseWorkoutsVC: FormViewController, passPlan, passWeek, passDay {
         
         self.viewCustomisation.customiseTableView(tableView: self.tableView, themeColor: UIColor.systemPink)
         
-        self.createSelectableWorkoutForm()
+        self.createSelectableAuctionForm()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,29 +58,29 @@ class ChooseWorkoutsVC: FormViewController, passPlan, passWeek, passDay {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationVC = segue.destination as? DisplayWorkoutVC{
-            self.workoutDelegate = destinationVC
-            self.workoutDelegate?.finishPassingFromPlans(chosenWorkout: self.chosenWorkout)
+        if let destinationVC = segue.destination as? DisplayAuctionVC{
+            self.auctionDelegate = destinationVC
+            self.auctionDelegate?.finishPassingFromPlans(chosenAuction: self.chosenAuction)
         }
     }
     
     //    MARK: Form handling.
     
-    func createSelectableWorkoutForm () {
+    func createSelectableAuctionForm () {
         let user = Auth.auth().currentUser
         if let user = user {
-            let workoutDocument = WorkoutDocument(uid: user.uid)
-            workoutDocument.getWorkoutDocument(completion: { loadedWorkouts in
-                self.workouts = loadedWorkouts
-                print(loadedWorkouts.count)
+            let auctionDocument = AuctionDocument(key: chosenAuction.key)
+            auctionDocument.getAuctionDocument(completion: { loadedAuctions in
+                self.auctions = loadedAuctions
+                print(loadedAuctions.count)
                 let infoAction = SwipeAction(
                     style: .normal,
                     title: "Info",
                     handler: { (action, row, completionHandler) in
-                        for (index, workout) in self.workouts.enumerated()  {
-                            if workout.name + String(index) == row.tag {
-                                self.chosenWorkout = self.workouts[index]
-                                self.performSegue(withIdentifier: "DisplayWorkoutSegueFromChecklist", sender: self)
+                        for (index, auction) in self.auctions.enumerated()  {
+                            if auction.name + String(index) == row.tag {
+                                self.chosenAuction = self.auctions[index]
+                                self.performSegue(withIdentifier: "DisplayAuctionSegueFromChecklist", sender: self)
                                 completionHandler?(true)
                             }
                         }
@@ -88,17 +88,17 @@ class ChooseWorkoutsVC: FormViewController, passPlan, passWeek, passDay {
                 infoAction.actionBackgroundColor = .lightGray
                 infoAction.image = UIImage(systemName: "info")
                 
-                self.form +++ self.workoutsSelectable
-                for (index, workout) in self.workouts.enumerated()  {
-                    self.form.last! <<< ImageCheckRow<String>(workout.name + String(index)){ lrow in
-                        lrow.title = workout.name
-                        lrow.selectableValue = workout.name
+                self.form +++ self.auctionsSelectable
+                for (index, auction) in self.auctions.enumerated()  {
+                    self.form.last! <<< ImageCheckRow<String>(auction.name + String(index)){ lrow in
+                        lrow.title = auction.name
+                        lrow.selectableValue = auction.name
                         lrow.value = nil
                         lrow.leadingSwipe.actions = [infoAction]
                         lrow.leadingSwipe.performsFirstActionWithFullSwipe = true
-                        for alreadyChosenWorkout in self.chosenPlan.weeks[self.chosenWeekIndex!].days[(self.chosenDayIndex)!].workouts {
-                            if workout.name == alreadyChosenWorkout.name {
-                                lrow.value = workout.name
+                        for alreadyChosenAuction in self.chosenPlan.weeks[self.chosenWeekIndex!].days[(self.chosenDayIndex)!].auctions {
+                            if auction.name == alreadyChosenAuction.name {
+                                lrow.value = auction.name
                                 lrow.didSelect()
                             }
                         }
@@ -111,11 +111,11 @@ class ChooseWorkoutsVC: FormViewController, passPlan, passWeek, passDay {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.chosenPlan.weeks[self.chosenWeekIndex!].days[(self.chosenDayIndex)!].workouts.removeAll()
-        for workout in self.workouts {
-            for selectableWorkoutRow in workoutsSelectable.selectedRows() {
-                if selectableWorkoutRow.title! == workout.name {
-                    self.chosenPlan.weeks[self.chosenWeekIndex!].days[(self.chosenDayIndex)!].workouts.append(workout)
+        self.chosenPlan.weeks[self.chosenWeekIndex!].days[(self.chosenDayIndex)!].auctions.removeAll()
+        for auction in self.auctions {
+            for selectableAuctionRow in auctionsSelectable.selectedRows() {
+                if selectableAuctionRow.title! == auction.name {
+                    self.chosenPlan.weeks[self.chosenWeekIndex!].days[(self.chosenDayIndex)!].auctions.append(auction)
                 }
             }
         }

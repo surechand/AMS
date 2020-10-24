@@ -53,7 +53,7 @@ class WeekVC: FormViewController, passPlan, passWeek {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationVC = segue.destination as? ChooseWorkoutsVC{
+        if let destinationVC = segue.destination as? ChooseAuctionsVC{
             self.planDelegate = destinationVC
             self.weekDelegate = destinationVC
             self.dayDelegate = destinationVC
@@ -142,7 +142,7 @@ class WeekVC: FormViewController, passPlan, passWeek {
     func assignCellRow(cell: ButtonCellOf<String>, row: ButtonRow) {
         self.chosenDayIndex = Int(row.tag!)
         self.chosenDay = self.chosenPlan.weeks[self.chosenWeekIndex!].days[chosenDayIndex!]
-        self.performSegue(withIdentifier: "chooseWorkoutSegue", sender: nil)
+        self.performSegue(withIdentifier: "chooseAuctionSegue", sender: nil)
     }
     
 }

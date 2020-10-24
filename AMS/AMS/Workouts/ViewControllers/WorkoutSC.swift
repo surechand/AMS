@@ -1,5 +1,5 @@
 //
-//  WorkoutSC.swift
+//  AuctionSC.swift
 //  Lifty
 //
 //  Created by Angelika Jeziorska on 20/04/2020.
@@ -32,7 +32,7 @@ extension String: SearchItem  {
     }
 }
 
-extension WorkoutsVC: UISearchResultsUpdating, UISearchBarDelegate {
+extension AuctionsVC: UISearchResultsUpdating, UISearchBarDelegate {
     
     //    MARK: Search Controller's functionalities.
     

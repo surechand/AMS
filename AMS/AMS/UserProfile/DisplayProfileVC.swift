@@ -70,11 +70,6 @@ class DisplayProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(DisplayProfileVC.imageTapped(gesture:)))
         ProfileImageView.addGestureRecognizer(tapGesture)
         ProfileImageView.isUserInteractionEnabled = true
-        
-        let arr = ImageManagement.shareInstance.fetchImage()
-        if (!arr.isEmpty) {
-            ProfileImageView.image = UIImage(data: arr[0].image!)
-        }
     }
     
     // MARK: Button methods.
@@ -82,7 +77,6 @@ class DisplayProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     @IBAction func logOut(_ sender: Any) {
         let firebaseAuth = Auth.auth()
         do {
-            ImageManagement.shareInstance.deleteImageFromCoreData()
             try firebaseAuth.signOut()
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
@@ -118,7 +112,6 @@ class DisplayProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
             (alert: UIAlertAction!) -> Void in
             self.ProfileImageView.image = UIImage(systemName: "person.crop.circle")
             ImageManagement.shareInstance.deleteImage()
-            ImageManagement.shareInstance.deleteImageFromCoreData()
         })
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
@@ -134,13 +127,8 @@ class DisplayProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
         
-        dismiss(animated: true)
-        ImageManagement.shareInstance.deleteImageFromCoreData()
-        
+        dismiss(animated: true)        
         self.ProfileImageView.image = image
-        if let imageData = ProfileImageView.image?.pngData() {
-            ImageManagement.shareInstance.saveImage(data: imageData)
-        }
     }
 
 }

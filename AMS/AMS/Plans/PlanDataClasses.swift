@@ -9,7 +9,7 @@
 import Foundation
 
 class Day {
-    var workouts = [Workout]()
+    var auctions = [Auction]()
 }
 
 class Week {
