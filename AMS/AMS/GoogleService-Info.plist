@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>932730086343-bjd2b6k1duvtnv886gooo4582qddflrt.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.932730086343-bjd2b6k1duvtnv886gooo4582qddflrt</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAt-Y6AqzJcT405QKM8TH-OtCPABvs_ePc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>932730086343</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>AMS.IO</string>
+	<key>PROJECT_ID</key>
+	<string>ams-io</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ams-io.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:932730086343:ios:62d58dadf758a5a7386fe2</string>
+	<key>DATABASE_URL</key>
+	<string>https://ams-io.firebaseio.com</string>
+</dict>
+</plist>
