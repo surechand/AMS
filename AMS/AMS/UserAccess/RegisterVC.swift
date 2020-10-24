@@ -11,7 +11,7 @@ import Eureka
 import Firebase
 import AnimatedGradientView
 
-class LiftyLogoView: UIView {
+class AMSLogoView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,7 +32,7 @@ class LiftyLogoView: UIView {
 
 class RegisterVC: FormViewController {
     
-    @IBOutlet weak var RegisteredButton: UIButton!
+    @IBOutlet weak var GoToSecondStepButton: UIButton!
     
     let viewCustomisation = ViewCustomisation()
     
@@ -49,7 +49,7 @@ class RegisterVC: FormViewController {
     func initiateNameForm() {
         form +++
             Section() {
-                $0.header = HeaderFooterView<LiftyLogoView>(.class)
+                $0.header = HeaderFooterView<AMSLogoView>(.class)
         }
             
             <<< TextRow("name") {
@@ -201,15 +201,12 @@ class RegisterVC: FormViewController {
         form
             +++ Section()
             <<< ButtonRow() {
-                $0.title = "Register"
+                $0.title = "Next"
             }
             .onCellSelection { cell, row in
                 var allValid = true
-                for row in self.form.rows {
-                    if !row.isValid {
-                        allValid = false
-                    }
-                }
+                let invalidRow = self.form.rows.firstIndex(where: { $0.isValid == false })
+                if (invalidRow != nil) { allValid = false }
                 if allValid == true {
                     //                    add user to firebase
                     let emailRow: EmailRow? = self.form.rowBy(tag: "email")
@@ -231,7 +228,7 @@ class RegisterVC: FormViewController {
                                     let userDocument = UserDocument(uid: user.uid)
                                     userDocument.setUserDocument(name: nameRow!.value!, surname: surnameRow!.value!, email: emailRow!.value!)
                                 }
-                                self!.performSegue(withIdentifier: "RegisteredSegue", sender: self!.RegisteredButton)
+                                self!.performSegue(withIdentifier: "RegisterSecondStepSegue", sender: self!.GoToSecondStepButton)
                             }
                         }
                     }
