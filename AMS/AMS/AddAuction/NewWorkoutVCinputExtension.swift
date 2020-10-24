@@ -19,11 +19,10 @@ extension NewAuctionVC {
         var isValid = true
         
         if chosenAuction.key != "" {
-            let user = Auth.auth().currentUser
-            if let user = user {
-                let auctionDocument = AuctionDocument(key: chosenAuction.key)
-                auctionDocument.deleteAuctionDocument(auction: self.chosenAuction)
-            }
+            let auctionDocument = AuctionDocument(key: chosenAuction.key)
+            auctionDocument.deleteAuctionDocument(auction: self.chosenAuction)
+        } else {
+            chosenAuction.key = getRandomKey()
         }
         
         
@@ -36,9 +35,10 @@ extension NewAuctionVC {
             //            add data to Cloud Firestore
             let user = Auth.auth().currentUser
             if let user = user {
+                chosenAuction.buyerId = user.uid
                 let auctionDocument = AuctionDocument(key: chosenAuction.key)
                 auctionDocument.setAuctionDocument(auction: self.chosenAuction, completion: {
-                    let rootVC = self.navigationController!.viewControllers.first as! AuctionsVC
+                    let rootVC = self.navigationController!.viewControllers.first as! MyAuctionsVC
                     rootVC.initiateForm()
                     self.navigationController?.popToRootViewController(animated: true)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)

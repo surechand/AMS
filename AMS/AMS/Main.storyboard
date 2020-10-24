@@ -32,10 +32,10 @@
             </objects>
             <point key="canvasLocation" x="-952" y="25"/>
         </scene>
-        <!--Plans-->
+        <!--Autctions-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
-                <viewController id="8rJ-Kc-sve" customClass="PlansVC" customModule="AMS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="8rJ-Kc-sve" userLabel="Autctions" customClass="AuctionsVC" customModule="AMS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -146,10 +146,10 @@
             </objects>
             <point key="canvasLocation" x="4068" y="1728"/>
         </scene>
-        <!--Auctions-->
+        <!--MyAuctions-->
         <scene sceneID="v41-Vf-8aj">
             <objects>
-                <viewController id="0iU-u0-gAb" customClass="AuctionsVC" customModule="AMS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="0iU-u0-gAb" userLabel="MyAuctions" customClass="MyAuctionsVC" customModule="AMS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="03f-48-LBM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -202,7 +202,7 @@
             <objects>
                 <viewController storyboardIdentifier="NewAuctionStoryboard" modalPresentationStyle="fullScreen" id="VqB-fT-kkn" customClass="NewAuctionVC" customModule="AMS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="30o-iV-WYz">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="iNj-tD-26B"/>
@@ -487,10 +487,10 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="a6e-nd-g5a"/>
+        <segue reference="GFb-mv-kpY"/>
         <segue reference="Ly6-xb-Yf1"/>
-        <segue reference="DEZ-He-KPz"/>
-        <segue reference="J2L-GE-3Jd"/>
+        <segue reference="YTv-h8-6Lj"/>
+        <segue reference="zRv-e0-5rg"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="icontransparent" width="1920" height="1920"/>

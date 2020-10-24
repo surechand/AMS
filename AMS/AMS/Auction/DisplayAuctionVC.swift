@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DisplayAuctionVC: UIViewController, passAuction, passAuctionFromPlans, UITextViewDelegate {
+class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var typeLabel: UILabel!

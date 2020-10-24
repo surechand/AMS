@@ -10,7 +10,7 @@ import UIKit
 import Eureka
 import Firebase
 
-class PlansVC: FormViewController {
+class AuctionsVC: FormViewController {
 
     @IBOutlet weak var NewAuctionButton: UIButton!
     @IBOutlet weak var UserProfileButton: UIButton!

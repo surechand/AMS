@@ -32,7 +32,7 @@ extension String: SearchItem  {
     }
 }
 
-extension AuctionsVC: UISearchResultsUpdating, UISearchBarDelegate {
+extension MyAuctionsVC: UISearchResultsUpdating, UISearchBarDelegate {
     
     //    MARK: Search Controller's functionalities.
     

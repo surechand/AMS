@@ -8,7 +8,7 @@
 
 import Foundation
 
-func randomKey() -> String {
+func getRandomKey() -> String {
   let signs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+?><:"
   return String((0..<11).map{ _ in signs.randomElement()! })
 }

@@ -9,7 +9,7 @@ import UIKit
 import Eureka
 import Firebase
 
-class AuctionsVC: FormViewController, passAuctionAndIndex {
+class MyAuctionsVC: FormViewController {
     
     @IBOutlet weak var NewAuctionButton: UIButton!
     @IBOutlet weak var UserProfileButton: UIButton!
@@ -29,7 +29,7 @@ class AuctionsVC: FormViewController, passAuctionAndIndex {
     let searchController = UISearchController(searchResultsController: nil)
     var originalOptions = [ButtonRow]()
     var currentOptions = [ButtonRow]()
-    var scopeTitles = ["Selling", "Bidding", "Sold"]
+    var scopeTitles = ["All", "Selling", "Bidding", "Sold"]
     
     override func viewDidLoad() {
         
