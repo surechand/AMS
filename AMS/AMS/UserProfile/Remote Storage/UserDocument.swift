@@ -53,4 +53,15 @@ class UserDocument {
         }
     }
     
+    func getUserExtraData(key: String, handler: @escaping (String) -> Void) {
+        self.userRef?.getDocument(completion: { (querySnapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let document = querySnapshot, document.exists {
+                if let value = document.get(key) as? String {
+                    handler(value)
+                }
+            }
+        })
+    }
 }

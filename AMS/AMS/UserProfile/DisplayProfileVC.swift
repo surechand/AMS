@@ -70,6 +70,12 @@ class DisplayProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(DisplayProfileVC.imageTapped(gesture:)))
         ProfileImageView.addGestureRecognizer(tapGesture)
         ProfileImageView.isUserInteractionEnabled = true
+        
+        ImageManagement.shareInstance.fetchUserImage(handler: { imageData in
+            if imageData != nil {
+                self.ProfileImageView.image = UIImage(data: imageData!)
+            }
+        })
     }
     
     // MARK: Button methods.
@@ -77,6 +83,7 @@ class DisplayProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     @IBAction func logOut(_ sender: Any) {
         let firebaseAuth = Auth.auth()
         do {
+            ImageManagement.shareInstance.deleteImage()
             try firebaseAuth.signOut()
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
@@ -127,7 +134,9 @@ class DisplayProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
         
-        dismiss(animated: true)        
+        dismiss(animated: true)
+        ImageManagement.shareInstance.deleteImage()
+        
         self.ProfileImageView.image = image
     }
 

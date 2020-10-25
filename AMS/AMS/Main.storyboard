@@ -70,8 +70,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="NewAuctionButton" destination="aFi-LS-7wm" id="fjn-gM-xt3"/>
-                        <outlet property="UserProfileButton" destination="kkm-RB-rkj" id="i2U-aN-g8L"/>
+                        <outlet property="NewAuctionButton" destination="aFi-LS-7wm" id="PgT-b0-EdL"/>
+                        <outlet property="UserProfileButton" destination="kkm-RB-rkj" id="jEh-lZ-ayc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
@@ -290,8 +290,6 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="tintColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="PbY-ZA-oIJ"/>
                     </view>
                     <connections>
@@ -487,7 +485,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="a6e-nd-g5a"/>
+        <segue reference="GFb-mv-kpY"/>
         <segue reference="Ly6-xb-Yf1"/>
         <segue reference="YTv-h8-6Lj"/>
         <segue reference="zRv-e0-5rg"/>

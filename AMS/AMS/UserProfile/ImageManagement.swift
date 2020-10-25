@@ -17,10 +17,13 @@ class ImageManagement {
     let user = Auth.auth().currentUser
     let storage = Storage.storage()
     
+    func saveImage(data: Data) {
+        self.saveToStorage(data: data)
+    }
     func saveToStorage (data: Data) {
         let storageRef = storage.reference()
         if let user = user {
-            let newUserPictureRef = storageRef.child("UserProfileImages/" + (user.displayName!.trimmingCharacters(in: .whitespacesAndNewlines)) + ".jpg")
+            let newUserPictureRef = storageRef.child("UserProfileImages/" + user.uid + ".jpg")
             
             // Upload the file to the path
             let uploadTask = newUserPictureRef.putData(data, metadata: nil) { (metadata, error) in
@@ -45,11 +48,25 @@ class ImageManagement {
         }
     }
     
+    func fetchUserImage(handler: @escaping (Data?) -> Void) {
+        let storageRef = storage.reference()
+        var userImage: UIImage?
+        if let user = user {
+            let imageRef = storageRef.child("UserProfileImages/" + user.uid + ".jpg")
+            imageRef.getData(maxSize: 1 * 4096 * 4096, completion: { data, error in
+                if let error = error {
+                    print("Failed to download user image data")
+                } else {
+                    handler(data)
+                }
+            })
+        }
+    }
     
     func deleteImage () {
         let storageRef = storage.reference()
         if let user = user {
-            let userPictureRef = storageRef.child("UserProfileImages/" + (user.displayName!.trimmingCharacters(in: .whitespacesAndNewlines)) + ".jpg")
+            let userPictureRef = storageRef.child("UserProfileImages/" + user.uid + ".jpg")
             
             userPictureRef.delete { error in
                 if let error = error {
@@ -62,4 +79,3 @@ class ImageManagement {
     }
     
 }
-
