@@ -1,35 +1,33 @@
 //
-//  WorkoutsVC.swift
-//  Lifty
+//  AuctionsVC.swift
+//  AMS
 //
-//  Created by Angelika Jeziorska on 08/12/2019.
-//  Copyright © 2019 Angelika Jeziorska. All rights reserved.
+//  Created by Angelika Jeziorska on 08/10/2020.
+//  Copyright © 2020 Angelika Jeziorska. All rights reserved.
 //
 import UIKit
 import Eureka
 import Firebase
 
-class WorkoutsVC: FormViewController, passWorkoutAndIndex {
+class MyAuctionsVC: FormViewController {
     
-    @IBOutlet weak var NewWorkoutButton: UIButton!
+    @IBOutlet weak var NewAuctionButton: UIButton!
     @IBOutlet weak var UserProfileButton: UIButton!
     
     let viewCustomisation = ViewCustomisation()
     
-    var workoutDelegate: passWorkout?
+    var auctionDelegate: passAuction?
     var themeDelegate: passTheme?
     
-    private let greenView = UIView()
-    
-    var workouts = [Workout]()
-    var chosenWorkout = Workout(name: "")
-    var chosenWorkoutIndex: Int?
+    var auctions = [Auction]()
+    var chosenAuction = Auction(name: "")
+    var chosenAuctionIndex: Int?
     
     // search controller's properties
     let searchController = UISearchController(searchResultsController: nil)
-    var originalOptions = [ButtonRow]()
-    var currentOptions = [ButtonRow]()
-    var scopeTitles = ["All", "FOR TIME", "EMOM", "AMRAP", "TABATA"]
+    var originalOptions = [AuctionRow]()
+    var currentOptions = [AuctionRow]()
+    var scopeTitles = ["All", "Selling", "Bidding", "Sold"]
     
     override func viewDidLoad() {
         
@@ -92,19 +90,19 @@ class WorkoutsVC: FormViewController, passWorkoutAndIndex {
     
     //    MARK: Protocol stubs.
     
-    func finishPassingWithIndex(chosenWorkout: Workout, chosenWorkoutIndex: Int?) {
-        self.chosenWorkout = chosenWorkout
-        self.chosenWorkoutIndex = chosenWorkoutIndex
+    func finishPassingWithIndex(chosenAuction: Auction, chosenAuctionIndex: Int?) {
+        self.chosenAuction = chosenAuction
+        self.chosenAuctionIndex = chosenAuctionIndex
         print("finished passing")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationVC = segue.destination as? NewWorkoutVC{
-            self.workoutDelegate = destinationVC
-            self.workoutDelegate?.finishPassing(chosenWorkout: chosenWorkout)
-        } else if let destinationVC = segue.destination as? DisplayWorkoutVC{
-            self.workoutDelegate = destinationVC
-            self.workoutDelegate?.finishPassing(chosenWorkout: chosenWorkout)
+        if let destinationVC = segue.destination as? NewAuctionVC{
+            self.auctionDelegate = destinationVC
+            self.auctionDelegate?.finishPassing(chosenAuction: chosenAuction)
+        } else if let destinationVC = segue.destination as? DisplayAuctionVC{
+            self.auctionDelegate = destinationVC
+            self.auctionDelegate?.finishPassing(chosenAuction: chosenAuction)
         } else if let destinationVC = segue.destination as? DisplayProfileVC{
             self.themeDelegate = destinationVC
             self.themeDelegate?.finishPassing(theme: UIColor.systemIndigo, gradient: CAGradientLayer.blueGradient(on: self.view)!)
@@ -113,34 +111,33 @@ class WorkoutsVC: FormViewController, passWorkoutAndIndex {
     
     //    MARK: Form handling.
     
-    @IBAction func addNewWorkout(_ sender: Any) {
+    @IBAction func addNewAuction(_ sender: Any) {
         UIView.setAnimationsEnabled(false)
-        let newWorkout = Workout(name: "")
-        self.workouts.append(newWorkout)
-        self.chosenWorkout = workouts.last!
-        self.chosenWorkoutIndex = workouts.count-1
+        let newAuction = Auction(name: "")
+        self.auctions.append(newAuction)
+        self.chosenAuction = auctions.last!
+        self.chosenAuctionIndex = auctions.count-1
         UIView.setAnimationsEnabled(true)
-        self.performSegue(withIdentifier: "NewWorkoutSegue", sender: nil)
+        self.performSegue(withIdentifier: "NewAuctionSegue", sender: nil)
     }
     
     func initiateForm () {
         let user = Auth.auth().currentUser
         if let user = user {    
-            let workoutDocument = WorkoutDocument(uid: user.uid)
-            workoutDocument.getWorkoutDocument(completion: { loadedWorkouts in
-                self.workouts = loadedWorkouts
+            let auctionDocument = AuctionDocument(key: chosenAuction.key)
+            auctionDocument.getAuctionDocument(completion: { loadedAuctions in
+                self.auctions = loadedAuctions
                 UIView.setAnimationsEnabled(false)
                 self.form.removeAll()
                 self.originalOptions.removeAll()
                 self.currentOptions.removeAll()
-                for (index, workout) in self.workouts.enumerated() {
+                for (index, auction) in self.auctions.enumerated() {
                     self.form +++
-                         ButtonRow () {
+                        AuctionRow () {
                             self.originalOptions.append($0)
-                            $0.title = workout.name
-                            $0.value = workout.type
+                            $0.type = String(auction.type)
                             $0.tag = String(index)
-                            print(index)
+                            $0.title = auction.name
                             $0.onCellSelection(self.assignCellRow)
                         }.cellUpdate { cell, row in
                             cell.textLabel?.textColor = UIColor.systemIndigo
@@ -148,48 +145,12 @@ class WorkoutsVC: FormViewController, passWorkoutAndIndex {
                             cell.indentationWidth = 10
                             cell.textLabel!.textAlignment = .left
                         }.cellSetup { cell, _ in
+                            cell.configure(with: AuctionCellModel(auctionName: auction.name, price: auction.price, auctionImageReference: auction.key + "/photo1.jpeg"))
                             let blueGradientImage = CAGradientLayer.blueGradient(on: self.view)
                             cell.backgroundColor = UIColor.white
                             cell.layer.borderColor = UIColor(patternImage: blueGradientImage!).cgColor
                             cell.layer.borderWidth = 3.0
-                            cell.contentView.layoutMargins.right = 20
-                    }
-                }
-                
-                let deleteAction = SwipeAction(
-                    style: .normal,
-                    title: "Delete",
-                    handler: { (action, row, completionHandler) in
-                        let user = Auth.auth().currentUser
-                        if let user = user {
-                            let workoutDocument = WorkoutDocument(uid: user.uid)
-                            workoutDocument.deleteWorkoutDocument (workout: self.workouts[Int(row.tag!)!])
                         }
-                        self.workouts.remove(at: Int(row.tag!)!)
-                        self.form.remove(at: Int(row.tag!)!)
-                        self.reIndex()
-                        completionHandler?(true)
-                })
-                deleteAction.actionBackgroundColor = .lightGray
-                deleteAction.image = UIImage(systemName: "trash")
-                let editAction = SwipeAction(
-                    style: .normal,
-                    title: "Edit",
-                    handler: { (action, row, completionHandler) in
-                        self.chosenWorkoutIndex = Int(row.tag!)
-                        self.chosenWorkout = self.workouts[self.chosenWorkoutIndex!]
-                        self.performSegue(withIdentifier: "NewWorkoutSegue", sender: self.NewWorkoutButton)
-                        completionHandler?(true)
-                })
-                editAction.actionBackgroundColor = .lightGray
-                editAction.image = UIImage(systemName: "pencil")
-                
-                for row in self.form.rows {
-                    row.baseCell.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-                    row.trailingSwipe.actions = [deleteAction]
-                    row.trailingSwipe.performsFirstActionWithFullSwipe = true
-                    row.leadingSwipe.actions = [editAction]
-                    row.leadingSwipe.performsFirstActionWithFullSwipe = true
                 }
                 UIView.setAnimationsEnabled(true)
                 self.tableView.reloadData()
@@ -198,10 +159,11 @@ class WorkoutsVC: FormViewController, passWorkoutAndIndex {
         }
     }
     
-    func assignCellRow(cell: ButtonCellOf<String>, row: ButtonRow) {
-        self.chosenWorkoutIndex = Int(row.tag!)
-        self.chosenWorkout = workouts[self.chosenWorkoutIndex!]
-        self.performSegue(withIdentifier: "DisplayWorkoutSegue", sender: self.NewWorkoutButton)
+    func assignCellRow(cell: AuctionCell, row: AuctionRow) {
+        row.deselect()
+        self.chosenAuctionIndex = Int(row.tag!)
+        self.chosenAuction = auctions[self.chosenAuctionIndex!]
+        self.performSegue(withIdentifier: "DisplayAuctionSegue", sender: self.NewAuctionButton)
     }
     
     func reIndex() {
@@ -209,5 +171,5 @@ class WorkoutsVC: FormViewController, passWorkoutAndIndex {
             row.tag = String(index)
         }
     }
-
+    
 }

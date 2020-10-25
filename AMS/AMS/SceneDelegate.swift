@@ -2,8 +2,8 @@
 //  SceneDelegate.swift
 //  Lifty
 //
-//  Created by Angelika Jeziorska on 08/12/2019.
-//  Copyright © 2019 Angelika Jeziorska. All rights reserved.
+//  Created by Angelika Jeziorska on 08/10/2020.
+//  Copyright © 2020 Angelika Jeziorska. All rights reserved.
 //
 
 import UIKit
@@ -48,7 +48,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
 
         // Save changes in the application's managed object context when the application transitions to the background.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
 

@@ -1,24 +1,26 @@
 //
 //  UserDocumentManagement.swift
-//  Lifty
+//  AMS
 //
-//  Created by Angelika Jeziorska on 17/04/2020.
+//  Created by Angelika Jeziorska on 17/10/2020.
 //  Copyright © 2020 Angelika Jeziorska. All rights reserved.
 //
 
 import Foundation
 import Firebase
 
-class UserDocument : Document {
+class UserDocument {
     
     var name: String?
     var surname: String?
     var email: String?
     var userRef: DocumentReference? = nil
     
-    override init(uid: String) {
-        super.init(uid: uid)
-        self.userRef = db.collection("users").document(self.uid)
+    let db = Firestore.firestore()
+    var uid: String
+    
+    init(uid: String) {
+        self.uid = uid
     }
     
     func setUserDocument (name: String, surname: String, email: String) {

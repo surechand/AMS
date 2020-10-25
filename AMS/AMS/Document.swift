@@ -1,8 +1,8 @@
 //
 //  Document.swift
-//  Lifty
+//  AMS
 //
-//  Created by Angelika Jeziorska on 17/04/2020.
+//  Created by Angelika Jeziorska on 17/10/2020.
 //  Copyright © 2020 Angelika Jeziorska. All rights reserved.
 //
 
@@ -11,9 +11,9 @@ import Firebase
 
 class Document {
     let db = Firestore.firestore()
-    var uid: String
+    var key: String
     
-    init(uid: String) {
-        self.uid = uid
+    init(key: String) {
+        self.key = key
     }
 }

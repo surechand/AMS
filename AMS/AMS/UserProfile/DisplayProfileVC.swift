@@ -1,8 +1,8 @@
 //
 //  DisplayProfileVC.swift
-//  Lifty
+//  AMS
 //
-//  Created by Angelika Jeziorska on 14/04/2020.
+//  Created by Angelika Jeziorska on 14/10/2020.
 //  Copyright © 2020 Angelika Jeziorska. All rights reserved.
 //
 
@@ -138,9 +138,6 @@ class DisplayProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
         ImageManagement.shareInstance.deleteImage()
         
         self.ProfileImageView.image = image
-        if let imageData = ProfileImageView.image?.pngData() {
-            ImageManagement.shareInstance.saveImage(data: imageData)
-        }
     }
 
 }

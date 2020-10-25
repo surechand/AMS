@@ -1,8 +1,8 @@
 //
 //  ImageManagement.swift
-//  Lifty
+//  AMS
 //
-//  Created by Angelika Jeziorska on 14/04/2020.
+//  Created by Angelika Jeziorska on 14/10/2020.
 //  Copyright © 2020 Angelika Jeziorska. All rights reserved.
 //
 
@@ -16,7 +16,6 @@ class ImageManagement {
     static let shareInstance = ImageManagement()
     let user = Auth.auth().currentUser
     let storage = Storage.storage()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     func saveImage(data: Data) {
         self.saveToStorage(data: data)
@@ -78,4 +77,5 @@ class ImageManagement {
             }
         }
     }
+    
 }
