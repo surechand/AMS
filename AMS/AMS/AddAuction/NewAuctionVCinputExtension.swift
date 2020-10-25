@@ -26,13 +26,13 @@ extension NewAuctionVC {
             chosenAuction.key = getRandomKey()
         }
         
-        getPhotoData()
         isValid = self.getData()
         
         if !isValid {
             AlertView.showInvalidDataAlert(view: self, theme: UIColor.systemIndigo)
         } else {
             //            add data to Cloud Firestore
+            savePhotoData()
             let user = Auth.auth().currentUser
             if let user = user {
                 chosenAuction.sellerId = user.uid
@@ -74,6 +74,7 @@ extension NewAuctionVC {
             return false
         } else {
             self.chosenAuction.startingPrice = Int(startingPriceRow!.value!)!
+            self.chosenAuction.price = self.chosenAuction.startingPrice
         }
         let finishDateRow: TextRow? = form.rowBy(tag: "finishDate")
         if finishDateRow!.value == nil {
@@ -85,23 +86,29 @@ extension NewAuctionVC {
     }
     
     // ja pierdole ale to woła o tablice i mapowanie
-    func getPhotoData() {
+    func savePhotoData() {
         let photoOneRow: ImageRow? = form.rowBy(tag: "photo1")
         let photoTwoRow: ImageRow? = form.rowBy(tag: "photo2")
         let photoThreeRow: ImageRow? = form.rowBy(tag: "photo3")
         let storage = Storage.storage()
         let storageRef = storage.reference()
-        let photoOneRef = storageRef.child(chosenAuction.key + "/" + photoOneRow!.tag!)
-        let photoTwoRef = storageRef.child(chosenAuction.key + "/" + photoTwoRow!.tag!)
-        let photoThreeRef = storageRef.child(chosenAuction.key + "/" + photoThreeRow!.tag!)
+        let photoOneRef = storageRef.child(chosenAuction.key + "/" + photoOneRow!.tag! + ".jpeg")
+        let photoTwoRef = storageRef.child(chosenAuction.key + "/" + photoTwoRow!.tag! + ".jpeg")
+        let photoThreeRef = storageRef.child(chosenAuction.key + "/" + photoThreeRow!.tag! + ".jpeg")
         if let photoOne = photoOneRow!.value {
-            photoOneRef.putData(photoOne.pngData()! as Data, metadata: nil)
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            photoOneRef.putData(photoOne.jpegData(compressionQuality: 0.5)! as Data, metadata: metadata)
         }
         if let photoTwo = photoTwoRow!.value {
-            photoTwoRef.putData(photoTwo.pngData()! as Data, metadata: nil)
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            photoTwoRef.putData(photoTwo.jpegData(compressionQuality: 0.5)! as Data, metadata: metadata)
         }
         if let photoThree = photoThreeRow!.value {
-            photoThreeRef.putData(photoThree.pngData()! as Data, metadata: nil)
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            photoThreeRef.putData(photoThree.jpegData(compressionQuality: 0.5)! as Data, metadata: metadata)
         }
     }
 }

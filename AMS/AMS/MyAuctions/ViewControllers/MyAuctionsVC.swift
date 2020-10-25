@@ -27,8 +27,8 @@ class MyAuctionsVC: FormViewController {
     
     // search controller's properties
     let searchController = UISearchController(searchResultsController: nil)
-    var originalOptions = [ButtonRow]()
-    var currentOptions = [ButtonRow]()
+    var originalOptions = [AuctionRow]()
+    var currentOptions = [AuctionRow]()
     var scopeTitles = ["All", "Selling", "Bidding", "Sold"]
     
     override func viewDidLoad() {
@@ -135,12 +135,11 @@ class MyAuctionsVC: FormViewController {
                 self.currentOptions.removeAll()
                 for (index, auction) in self.auctions.enumerated() {
                     self.form +++
-                         ButtonRow () {
+                        AuctionRow () {
                             self.originalOptions.append($0)
-                            $0.title = auction.name
-                            $0.value = auction.type
+                            $0.type = String(auction.type)
                             $0.tag = String(index)
-                            print(index)
+                            $0.title = auction.name
                             $0.onCellSelection(self.assignCellRow)
                         }.cellUpdate { cell, row in
                             cell.textLabel?.textColor = UIColor.systemIndigo
@@ -148,48 +147,12 @@ class MyAuctionsVC: FormViewController {
                             cell.indentationWidth = 10
                             cell.textLabel!.textAlignment = .left
                         }.cellSetup { cell, _ in
+                            cell.configure(with: AuctionCellModel(auctionName: auction.name, price: auction.price, auctionImageReference: auction.key + "/photo1.jpeg"))
                             let blueGradientImage = CAGradientLayer.blueGradient(on: self.view)
                             cell.backgroundColor = UIColor.white
                             cell.layer.borderColor = UIColor(patternImage: blueGradientImage!).cgColor
                             cell.layer.borderWidth = 3.0
-                            cell.contentView.layoutMargins.right = 20
-                    }
-                }
-                
-                let deleteAction = SwipeAction(
-                    style: .normal,
-                    title: "Delete",
-                    handler: { (action, row, completionHandler) in
-                        let user = Auth.auth().currentUser
-                        if let user = user {
-                            let auctionDocument = AuctionDocument(key: self.chosenAuction.key)
-                            auctionDocument.deleteAuctionDocument (auction: self.auctions[Int(row.tag!)!])
                         }
-                        self.auctions.remove(at: Int(row.tag!)!)
-                        self.form.remove(at: Int(row.tag!)!)
-                        self.reIndex()
-                        completionHandler?(true)
-                })
-                deleteAction.actionBackgroundColor = .lightGray
-                deleteAction.image = UIImage(systemName: "trash")
-                let editAction = SwipeAction(
-                    style: .normal,
-                    title: "Edit",
-                    handler: { (action, row, completionHandler) in
-                        self.chosenAuctionIndex = Int(row.tag!)
-                        self.chosenAuction = self.auctions[self.chosenAuctionIndex!]
-                        self.performSegue(withIdentifier: "NewAuctionSegue", sender: self.NewAuctionButton)
-                        completionHandler?(true)
-                })
-                editAction.actionBackgroundColor = .lightGray
-                editAction.image = UIImage(systemName: "pencil")
-                
-                for row in self.form.rows {
-                    row.baseCell.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-                    row.trailingSwipe.actions = [deleteAction]
-                    row.trailingSwipe.performsFirstActionWithFullSwipe = true
-                    row.leadingSwipe.actions = [editAction]
-                    row.leadingSwipe.performsFirstActionWithFullSwipe = true
                 }
                 UIView.setAnimationsEnabled(true)
                 self.tableView.reloadData()
@@ -198,7 +161,8 @@ class MyAuctionsVC: FormViewController {
         }
     }
     
-    func assignCellRow(cell: ButtonCellOf<String>, row: ButtonRow) {
+    func assignCellRow(cell: AuctionCell, row: AuctionRow) {
+        row.deselect()
         self.chosenAuctionIndex = Int(row.tag!)
         self.chosenAuction = auctions[self.chosenAuctionIndex!]
         self.performSegue(withIdentifier: "DisplayAuctionSegue", sender: self.NewAuctionButton)
@@ -209,5 +173,5 @@ class MyAuctionsVC: FormViewController {
             row.tag = String(index)
         }
     }
-
+    
 }

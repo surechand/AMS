@@ -50,14 +50,14 @@ extension MyAuctionsVC: UISearchResultsUpdating, UISearchBarDelegate {
     private func filterOptionsForSearchText(_ searchText: String, scope: String?) {
         if searchText.isEmpty {
             currentOptions = scope == nil ? originalOptions : originalOptions.filter { item in
-                guard let value = item.value else { return false }
+                guard let value = item.type else { return false }
                 return (scope == "All") || value.matchesScope(scope!)
             }
         } else if scope == nil {
             currentOptions = originalOptions.filter { $0.title?.matchesSearchQuery(searchText) ?? false}
         } else {
             currentOptions = originalOptions.filter { item in
-                guard let value = item.value else { return false }
+                guard let value = item.type else { return false }
                 
                 let doesScopeMatch = (scope == "All") || value.matchesScope(scope!)
                 return doesScopeMatch && item.title!.matchesSearchQuery(searchText)

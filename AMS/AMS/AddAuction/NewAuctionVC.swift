@@ -23,7 +23,7 @@ class NewAuctionVC: FormViewController, passAuction {
         
         self.replaceBackButton()
         
-//        self.viewCustomisation.customiseTableView(tableView: self.tableView, themeColor: UIColor.systemIndigo)
+        self.viewCustomisation.customiseTableView(tableView: self.tableView, themeColor: UIColor.systemIndigo)
         
         createAuctionTitleForm()
         initiateAuctionForm()
@@ -232,31 +232,19 @@ class NewAuctionVC: FormViewController, passAuction {
             $0.tag = "photo1"
             $0.title = "Auction image 1"
             $0.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum]
-            $0.clearAction = .no
-        }
-        .cellUpdate { cell, row in
-            cell.accessoryView?.layer.cornerRadius = 17
-            cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+            $0.clearAction = .yes(style: .default)
         }
         <<< ImageRow() {
             $0.tag = "photo2"
             $0.title = "Auction image 2"
             $0.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum]
-            $0.clearAction = .no
-        }
-        .cellUpdate { cell, row in
-            cell.accessoryView?.layer.cornerRadius = 17
-            cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+            $0.clearAction = .yes(style: .default)
         }
         <<< ImageRow() {
             $0.tag = "photo3"
             $0.title = "Auction image 3"
             $0.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum]
-            $0.clearAction = .no
-        }
-        .cellUpdate { cell, row in
-            cell.accessoryView?.layer.cornerRadius = 17
-            cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+            $0.clearAction = .yes(style: .default)
         }
     }
     
