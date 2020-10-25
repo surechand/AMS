@@ -200,14 +200,57 @@ class RegisterVC: FormViewController {
     func initiateValidationForm() {
         form
             +++ Section()
+            <<< CheckRow("agreement1") {
+                $0.title = "I agree to T&C of AMS app:"
+                $0.cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+                $0.add(rule: RuleRequired())
+            }.onChange({ row in
+                let agr2: CheckRow? = self.form.rowBy(tag: "agreement2")
+                if row.value == true {
+                    agr2!.value = true
+                } else {
+                    agr2!.value = false
+                }
+                agr2?.reload()
+            })
+            
+            <<< TextAreaRow() {
+                $0.value = "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32."
+                $0.textAreaMode = .readOnly
+                $0.textAreaHeight = .dynamic(initialTextViewHeight: 30)
+                $0.hidden = "$agreement1 == true"
+            }
+            
+            <<< CheckRow("agreement2") {
+                $0.title = "I agree to T&C of AMS app"
+                $0.cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+            }.onChange({ row in
+                let agr1: CheckRow? = self.form.rowBy(tag: "agreement1")
+                if row.value == true {
+                    agr1!.value = true
+                } else {
+                    agr1?.value = false
+                }
+                agr1?.reload()
+            })
+            
             <<< ButtonRow() {
                 $0.title = "Next"
             }
             .onCellSelection { cell, row in
                 var allValid = true
                 let invalidRow = self.form.rows.firstIndex(where: { $0.isValid == false })
+                let agreement1: CheckRow? = self.form.rowBy(tag: "agreement1")
+                
                 if (invalidRow != nil) { allValid = false }
-                if allValid == true {
+                
+                if allValid == true && agreement1?.value != true {
+                    let alert = UIAlertController(title: "T&C", message: "You have to accept T&C of AMS to use it", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
+                
+                if allValid == true && agreement1?.value == true {
                     //                    add user to firebase
                     let emailRow: EmailRow? = self.form.rowBy(tag: "email")
                     let email = emailRow!.value!
