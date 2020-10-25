@@ -71,10 +71,11 @@ class DisplayProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
         ProfileImageView.addGestureRecognizer(tapGesture)
         ProfileImageView.isUserInteractionEnabled = true
         
-        let arr = ImageManagement.shareInstance.fetchImage()
-        if (!arr.isEmpty) {
-            ProfileImageView.image = UIImage(data: arr[0].image!)
-        }
+        ImageManagement.shareInstance.fetchUserImage(handler: { imageData in
+            if imageData != nil {
+                self.ProfileImageView.image = UIImage(data: imageData!)
+            }
+        })
     }
     
     // MARK: Button methods.
@@ -82,7 +83,7 @@ class DisplayProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
     @IBAction func logOut(_ sender: Any) {
         let firebaseAuth = Auth.auth()
         do {
-            ImageManagement.shareInstance.deleteImageFromCoreData()
+            ImageManagement.shareInstance.deleteImage()
             try firebaseAuth.signOut()
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
@@ -118,7 +119,6 @@ class DisplayProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
             (alert: UIAlertAction!) -> Void in
             self.ProfileImageView.image = UIImage(systemName: "person.crop.circle")
             ImageManagement.shareInstance.deleteImage()
-            ImageManagement.shareInstance.deleteImageFromCoreData()
         })
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
@@ -135,7 +135,7 @@ class DisplayProfileVC: UIViewController, UIImagePickerControllerDelegate, UINav
         guard let image = info[.editedImage] as? UIImage else { return }
         
         dismiss(animated: true)
-        ImageManagement.shareInstance.deleteImageFromCoreData()
+        ImageManagement.shareInstance.deleteImage()
         
         self.ProfileImageView.image = image
         if let imageData = ProfileImageView.image?.pngData() {

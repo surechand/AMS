@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		101ECC87254456AA000B78C7 /* AMS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 101ECC85254456AA000B78C7 /* AMS.xcdatamodeld */; };
+		101ECC8C254456B8000B78C7 /* RegisterSecondStepVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101ECC8B254456B8000B78C7 /* RegisterSecondStepVC.swift */; };
+		1083AC8925445C820082606B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1083AC8825445C820082606B /* GoogleService-Info.plist */; };
 		1D2919A06ADE51488ACE95FD /* Pods_AMS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E14BFC0BFB5FFAF912683B0 /* Pods_AMS.framework */; };
 		2144D2A0B7187D474338AF65 /* Pods_AMS_AMSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6DAC04BC0BFE8506470D8EE /* Pods_AMS_AMSUITests.framework */; };
 		45B369C1BC04F24447F43EA6 /* Pods_AMSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DD242CD68F430FB0678C5D7 /* Pods_AMSTests.framework */; };
@@ -36,10 +39,7 @@
 		66D505B124445DFA00537D69 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D505B024445DFA00537D69 /* RegisterVC.swift */; };
 		66D505B624445E2F00537D69 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D505B524445E2F00537D69 /* LoginVC.swift */; };
 		66D505B824445E4B00537D69 /* ResetPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D505B724445E4B00537D69 /* ResetPasswordVC.swift */; };
-		66E31A9D245AB20400CC1D08 /* AchievementCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E31A9B245AB20400CC1D08 /* AchievementCVCell.swift */; };
-		66E31A9E245AB20400CC1D08 /* AchievementCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66E31A9C245AB20400CC1D08 /* AchievementCVCell.xib */; };
 		66E31AA0245AC87800CC1D08 /* AchievementDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E31A9F245AC87800CC1D08 /* AchievementDocument.swift */; };
-		66E31AA2245AD20800CC1D08 /* DisplayProfileVCAchievementExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E31AA1245AD20800CC1D08 /* DisplayProfileVCAchievementExtension.swift */; };
 		66E570B6244844D0009452D8 /* WorkoutProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E570B5244844D0009452D8 /* WorkoutProtocols.swift */; };
 		66E570C324499FB9009452D8 /* UserDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E570C224499FB9009452D8 /* UserDocument.swift */; };
 		66E570C52449B4A3009452D8 /* WorkoutDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E570C42449B4A3009452D8 /* WorkoutDocument.swift */; };
@@ -48,16 +48,11 @@
 		66E570CB244A0C99009452D8 /* NewWorkoutVCinputExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E570CA244A0C99009452D8 /* NewWorkoutVCinputExtension.swift */; };
 		66E570CD244A0F52009452D8 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E570CC244A0F52009452D8 /* Alert.swift */; };
 		66E96EA0245C483D00574C00 /* TimerVCAchievementExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E96E9F245C483D00574C00 /* TimerVCAchievementExtension.swift */; };
-		66EC8B2425371D3F005E8CFF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 66EC8B2325371D3F005E8CFF /* GoogleService-Info.plist */; };
-		66EC8B2525371D3F005E8CFF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 66EC8B2325371D3F005E8CFF /* GoogleService-Info.plist */; };
-		66EC8B2625371D3F005E8CFF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 66EC8B2325371D3F005E8CFF /* GoogleService-Info.plist */; };
-		66EC8B2825371D52005E8CFF /* GoogleService-Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 66EC8B2725371D52005E8CFF /* GoogleService-Info.plist */; };
 		66FF057324092D29004AABF6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66FF057224092D29004AABF6 /* Default-568h@2x.png */; };
 		66FF058F240930BE004AABF6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF0581240930BD004AABF6 /* AppDelegate.swift */; };
 		66FF0590240930BE004AABF6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF0582240930BD004AABF6 /* SceneDelegate.swift */; };
 		66FF0591240930BE004AABF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66FF0583240930BD004AABF6 /* Main.storyboard */; };
 		66FF0592240930BE004AABF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66FF0584240930BD004AABF6 /* LaunchScreen.storyboard */; };
-		66FF0596240930BE004AABF6 /* Lifty.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66FF0588240930BE004AABF6 /* Lifty.xcdatamodeld */; };
 		66FF0598240930BE004AABF6 /* WorkoutDataClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF058B240930BE004AABF6 /* WorkoutDataClasses.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +74,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		101ECC86254456AA000B78C7 /* Lifty.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Lifty.xcdatamodel; sourceTree = "<group>"; };
+		101ECC8B254456B8000B78C7 /* RegisterSecondStepVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterSecondStepVC.swift; sourceTree = "<group>"; };
+		1083AC8825445C820082606B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		14B0ECDC98FE810D9862FC72 /* Pods-AMS-AMSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMS-AMSUITests.debug.xcconfig"; path = "Target Support Files/Pods-AMS-AMSUITests/Pods-AMS-AMSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		4DD242CD68F430FB0678C5D7 /* Pods_AMSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AMSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E9372073AE60348B8FD9AD5 /* Pods-AMS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMS.release.xcconfig"; path = "Target Support Files/Pods-AMS/Pods-AMS.release.xcconfig"; sourceTree = "<group>"; };
@@ -107,10 +105,7 @@
 		66D505B024445DFA00537D69 /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		66D505B524445E2F00537D69 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		66D505B724445E4B00537D69 /* ResetPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordVC.swift; sourceTree = "<group>"; };
-		66E31A9B245AB20400CC1D08 /* AchievementCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementCVCell.swift; sourceTree = "<group>"; };
-		66E31A9C245AB20400CC1D08 /* AchievementCVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AchievementCVCell.xib; sourceTree = "<group>"; };
 		66E31A9F245AC87800CC1D08 /* AchievementDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementDocument.swift; sourceTree = "<group>"; };
-		66E31AA1245AD20800CC1D08 /* DisplayProfileVCAchievementExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayProfileVCAchievementExtension.swift; sourceTree = "<group>"; };
 		66E570B5244844D0009452D8 /* WorkoutProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutProtocols.swift; sourceTree = "<group>"; };
 		66E570C224499FB9009452D8 /* UserDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDocument.swift; sourceTree = "<group>"; };
 		66E570C42449B4A3009452D8 /* WorkoutDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDocument.swift; sourceTree = "<group>"; };
@@ -119,8 +114,6 @@
 		66E570CA244A0C99009452D8 /* NewWorkoutVCinputExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWorkoutVCinputExtension.swift; sourceTree = "<group>"; };
 		66E570CC244A0F52009452D8 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		66E96E9F245C483D00574C00 /* TimerVCAchievementExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerVCAchievementExtension.swift; sourceTree = "<group>"; };
-		66EC8B2325371D3F005E8CFF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		66EC8B2725371D52005E8CFF /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		66FF051724092C18004AABF6 /* AMS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AMS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66FF053024092C1C004AABF6 /* AMSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AMSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		66FF053B24092C1C004AABF6 /* AMSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AMSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,7 +122,6 @@
 		66FF0582240930BD004AABF6 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		66FF0583240930BD004AABF6 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		66FF0584240930BD004AABF6 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		66FF0589240930BE004AABF6 /* Lifty.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Lifty.xcdatamodel; sourceTree = "<group>"; };
 		66FF058B240930BE004AABF6 /* WorkoutDataClasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutDataClasses.swift; sourceTree = "<group>"; };
 		66FF058D240930BE004AABF6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		696DED5B445DA0E2267D4EA8 /* Pods-LiftyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LiftyTests.release.xcconfig"; path = "Target Support Files/Pods-LiftyTests/Pods-LiftyTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -179,11 +171,8 @@
 			children = (
 				66E570C024499F97009452D8 /* Remote Storage */,
 				66B1198C2447143D00FAC032 /* DisplayProfileVC.swift */,
-				66E31AA1245AD20800CC1D08 /* DisplayProfileVCAchievementExtension.swift */,
 				66B1198E2447143D00FAC032 /* EditUserDataVC.swift */,
 				66B1198D2447143D00FAC032 /* ImageManagement.swift */,
-				66E31A9B245AB20400CC1D08 /* AchievementCVCell.swift */,
-				66E31A9C245AB20400CC1D08 /* AchievementCVCell.xib */,
 			);
 			path = UserProfile;
 			sourceTree = "<group>";
@@ -249,6 +238,7 @@
 		66D505B424445E0000537D69 /* UserAccess */ = {
 			isa = PBXGroup;
 			children = (
+				101ECC8B254456B8000B78C7 /* RegisterSecondStepVC.swift */,
 				66D505B524445E2F00537D69 /* LoginVC.swift */,
 				66D505B024445DFA00537D69 /* RegisterVC.swift */,
 				66D505B724445E4B00537D69 /* ResetPasswordVC.swift */,
@@ -305,8 +295,8 @@
 		66FF051924092C18004AABF6 /* AMS */ = {
 			isa = PBXGroup;
 			children = (
-				66EC8B2325371D3F005E8CFF /* GoogleService-Info.plist */,
-				66EC8B2725371D52005E8CFF /* GoogleService-Info.plist */,
+				1083AC8825445C820082606B /* GoogleService-Info.plist */,
+				101ECC85254456AA000B78C7 /* AMS.xcdatamodeld */,
 				66D441F52441B9E700FF62C2 /* LiftyRelease.entitlements */,
 				66ABC65B240D300100295591 /* Assets.xcassets */,
 				66093233242F5A08001BEC19 /* Gradients.swift */,
@@ -323,7 +313,6 @@
 				66FF0583240930BD004AABF6 /* Main.storyboard */,
 				66FF0584240930BD004AABF6 /* LaunchScreen.storyboard */,
 				66FF058D240930BE004AABF6 /* Info.plist */,
-				66FF0588240930BE004AABF6 /* Lifty.xcdatamodeld */,
 			);
 			path = AMS;
 			sourceTree = "<group>";
@@ -369,6 +358,7 @@
 				66FF051424092C18004AABF6 /* Frameworks */,
 				66FF051524092C18004AABF6 /* Resources */,
 				CF127D6FBC76DFA02863B410 /* [CP] Embed Pods Frameworks */,
+				209DEE7C45124AB1A2544DA6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -407,6 +397,7 @@
 				66FF053824092C1C004AABF6 /* Frameworks */,
 				66FF053924092C1C004AABF6 /* Resources */,
 				667DA1AA44CD2FD7BA46AE64 /* [CP] Embed Pods Frameworks */,
+				25590F69A5388E6728604F7A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -469,10 +460,9 @@
 			files = (
 				66FF0592240930BE004AABF6 /* LaunchScreen.storyboard in Resources */,
 				66FF057324092D29004AABF6 /* Default-568h@2x.png in Resources */,
-				66E31A9E245AB20400CC1D08 /* AchievementCVCell.xib in Resources */,
+				1083AC8925445C820082606B /* GoogleService-Info.plist in Resources */,
 				66FF0591240930BE004AABF6 /* Main.storyboard in Resources */,
 				66ABC65C240D300100295591 /* Assets.xcassets in Resources */,
-				66EC8B2425371D3F005E8CFF /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,7 +471,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				665651C82444B8E70077640E /* Main.storyboard in Resources */,
-				66EC8B2525371D3F005E8CFF /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,13 +479,46 @@
 			buildActionMask = 2147483647;
 			files = (
 				665651CB2444B8E70077640E /* Main.storyboard in Resources */,
-				66EC8B2625371D3F005E8CFF /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		209DEE7C45124AB1A2544DA6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AMS/Pods-AMS-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AMS/Pods-AMS-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AMS/Pods-AMS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		25590F69A5388E6728604F7A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AMS-AMSUITests/Pods-AMS-AMSUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AMS-AMSUITests/Pods-AMS-AMSUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AMS-AMSUITests/Pods-AMS-AMSUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		3732EDAAFA5ED131C2446A01 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -616,12 +638,12 @@
 				66E570B6244844D0009452D8 /* WorkoutProtocols.swift in Sources */,
 				66E31AA0245AC87800CC1D08 /* AchievementDocument.swift in Sources */,
 				66B119902447143D00FAC032 /* ImageManagement.swift in Sources */,
-				66FF0596240930BE004AABF6 /* Lifty.xcdatamodeld in Sources */,
 				66B11983244713C500FAC032 /* ChooseWorkoutsVC.swift in Sources */,
 				66FF0598240930BE004AABF6 /* WorkoutDataClasses.swift in Sources */,
 				6697694B244A1F44009F33CE /* ExerciseVCinputExtension.swift in Sources */,
+				101ECC87254456AA000B78C7 /* AMS.xcdatamodeld in Sources */,
 				66B11981244713C500FAC032 /* WeekVC.swift in Sources */,
-				66EC8B2825371D52005E8CFF /* GoogleService-Info.plist in Sources */,
+				101ECC8C254456B8000B78C7 /* RegisterSecondStepVC.swift in Sources */,
 				66E570C324499FB9009452D8 /* UserDocument.swift in Sources */,
 				66BB8EFA246427ED001D406B /* ImageCheckCell.swift in Sources */,
 				66D505B824445E4B00537D69 /* ResetPasswordVC.swift in Sources */,
@@ -629,14 +651,12 @@
 				66B1197F244713C500FAC032 /* NewPlanVC.swift in Sources */,
 				66CFC912244F5140009E1CE9 /* TimerVC.swift in Sources */,
 				66E570C92449B5B6009452D8 /* Document.swift in Sources */,
-				66E31A9D245AB20400CC1D08 /* AchievementCVCell.swift in Sources */,
 				66B1198F2447143D00FAC032 /* DisplayProfileVC.swift in Sources */,
 				66FF058F240930BE004AABF6 /* AppDelegate.swift in Sources */,
 				66E96EA0245C483D00574C00 /* TimerVCAchievementExtension.swift in Sources */,
 				66D505B624445E2F00537D69 /* LoginVC.swift in Sources */,
 				66B1198B2447141800FAC032 /* ExerciseVC.swift in Sources */,
 				66093234242F5A08001BEC19 /* Gradients.swift in Sources */,
-				66E31AA2245AD20800CC1D08 /* DisplayProfileVCAchievementExtension.swift in Sources */,
 				66B11980244713C500FAC032 /* PlanDataClasses.swift in Sources */,
 				66B119882447141800FAC032 /* WorkoutsVC.swift in Sources */,
 				66B119892447141800FAC032 /* DisplayWorkoutVC.swift in Sources */,
@@ -964,13 +984,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		66FF0588240930BE004AABF6 /* Lifty.xcdatamodeld */ = {
+		101ECC85254456AA000B78C7 /* AMS.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				66FF0589240930BE004AABF6 /* Lifty.xcdatamodel */,
+				101ECC86254456AA000B78C7 /* Lifty.xcdatamodel */,
 			);
-			currentVersion = 66FF0589240930BE004AABF6 /* Lifty.xcdatamodel */;
-			path = Lifty.xcdatamodeld;
+			currentVersion = 101ECC86254456AA000B78C7 /* Lifty.xcdatamodel */;
+			path = AMS.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
