@@ -8,6 +8,7 @@
 
 import UIKit
 import Eureka
+import ImageRow
 
 class NewAuctionVC: FormViewController, passAuction {
     
@@ -22,9 +23,11 @@ class NewAuctionVC: FormViewController, passAuction {
         
         self.replaceBackButton()
         
-        self.viewCustomisation.customiseTableView(tableView: self.tableView, themeColor: UIColor.systemIndigo)
+//        self.viewCustomisation.customiseTableView(tableView: self.tableView, themeColor: UIColor.systemIndigo)
         
         createAuctionTitleForm()
+        initiateAuctionForm()
+        initiatePictureForm()
         
     }
     
@@ -81,6 +84,179 @@ class NewAuctionVC: FormViewController, passAuction {
                         row.section?.insert(labelRow, at: indexPath)
                     }
                 }
+        }
+    }
+    
+    func initiateAuctionForm() {
+        form +++
+            
+            TextRow("description") {
+                $0.title = "Description"
+                $0.add(rule: RuleRequired())
+                $0.validationOptions = .validatesOnChange
+            }
+            .cellUpdate { cell, row in
+                if !row.isValid {
+                    cell.titleLabel?.textColor = .red
+                }
+            }
+            .onRowValidationChanged { cell, row in
+                let rowIndex = row.indexPath!.row
+                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                    row.section?.remove(at: rowIndex + 1)
+                }
+                if !row.isValid {
+                    for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                        let labelRow = LabelRow() {
+                            $0.title = validationMsg
+                            $0.cell.height = { 30 }
+                        }
+                        let indexPath = row.indexPath!.row + index + 1
+                        row.section?.insert(labelRow, at: indexPath)
+                    }
+                }
+            }
+            
+            <<< TextRow("parameters") {
+                $0.title = "Parameters"
+                $0.add(rule: RuleRequired())
+                $0.validationOptions = .validatesOnChange
+            }
+            .cellUpdate { cell, row in
+                if !row.isValid {
+                    cell.titleLabel?.textColor = .red
+                }
+            }
+            .onRowValidationChanged { cell, row in
+                let rowIndex = row.indexPath!.row
+                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                    row.section?.remove(at: rowIndex + 1)
+                }
+                if !row.isValid {
+                    for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                        let labelRow = LabelRow() {
+                            $0.title = validationMsg
+                            $0.cell.height = { 30 }
+                        }
+                        let indexPath = row.indexPath!.row + index + 1
+                        row.section?.insert(labelRow, at: indexPath)
+                    }
+                }
+        }
+        
+        <<< TextRow("shippingDetails") {
+            $0.title = "Shipping details"
+            $0.add(rule: RuleRequired())
+            $0.validationOptions = .validatesOnChange
+        }
+        .cellUpdate { cell, row in
+            if !row.isValid {
+                cell.titleLabel?.textColor = .red
+            }
+        }
+        .onRowValidationChanged { cell, row in
+            let rowIndex = row.indexPath!.row
+            while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                row.section?.remove(at: rowIndex + 1)
+            }
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    let labelRow = LabelRow() {
+                        $0.title = validationMsg
+                        $0.cell.height = { 30 }
+                    }
+                    let indexPath = row.indexPath!.row + index + 1
+                    row.section?.insert(labelRow, at: indexPath)
+                }
+            }
+        }
+        
+        <<< TextRow("startingPrice") {
+            $0.title = "Starting price"
+            $0.add(rule: RuleRequired())
+            $0.validationOptions = .validatesOnChange
+        }
+        .cellUpdate { cell, row in
+            if !row.isValid {
+                cell.titleLabel?.textColor = .red
+            }
+        }
+        .onRowValidationChanged { cell, row in
+            let rowIndex = row.indexPath!.row
+            while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                row.section?.remove(at: rowIndex + 1)
+            }
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    let labelRow = LabelRow() {
+                        $0.title = validationMsg
+                        $0.cell.height = { 30 }
+                    }
+                    let indexPath = row.indexPath!.row + index + 1
+                    row.section?.insert(labelRow, at: indexPath)
+                }
+            }
+        }
+        
+        <<< TextRow("finishDate") {
+            $0.title = "Finish date"
+            $0.add(rule: RuleRequired())
+            $0.validationOptions = .validatesOnChange
+        }
+        .cellUpdate { cell, row in
+            if !row.isValid {
+                cell.titleLabel?.textColor = .red
+            }
+        }
+        .onRowValidationChanged { cell, row in
+            let rowIndex = row.indexPath!.row
+            while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                row.section?.remove(at: rowIndex + 1)
+            }
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    let labelRow = LabelRow() {
+                        $0.title = validationMsg
+                        $0.cell.height = { 30 }
+                    }
+                    let indexPath = row.indexPath!.row + index + 1
+                    row.section?.insert(labelRow, at: indexPath)
+                }
+            }
+        }
+    }
+    
+    func initiatePictureForm() {
+        form +++
+         ImageRow() {
+            $0.tag = "photo1"
+            $0.title = "Auction image 1"
+            $0.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum]
+            $0.clearAction = .no
+        }
+        .cellUpdate { cell, row in
+            cell.accessoryView?.layer.cornerRadius = 17
+            cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        }
+        <<< ImageRow() {
+            $0.tag = "photo2"
+            $0.title = "Auction image 2"
+            $0.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum]
+            $0.clearAction = .no
+        }
+        .cellUpdate { cell, row in
+            cell.accessoryView?.layer.cornerRadius = 17
+            cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        }
+        <<< ImageRow() {
+            $0.tag = "photo3"
+            $0.title = "Auction image 3"
+            $0.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum]
+            $0.clearAction = .no
+        }
+        .cellUpdate { cell, row in
+            cell.accessoryView?.layer.cornerRadius = 17
+            cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         }
     }
     
