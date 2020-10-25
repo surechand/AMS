@@ -12,7 +12,7 @@ import FirebaseUI
 
 struct AuctionCellModel {
     let auctionName: String
-    let price: Int
+    let price: Double
     let auctionImageReference: String
 }
 
@@ -41,7 +41,7 @@ class AuctionCell: BaseCell, CellType {
         let imgRef = storageRef.child(model.auctionImageReference)
         auctionImage.sd_setImage(with: imgRef, placeholderImage: UIImage(systemName: "bag"))
         auctionNameLabel.text = model.auctionName
-        auctionPriceLabel.text = String(model.price) + "zł"
+        auctionPriceLabel.text = String(model.price) + "€"
     }
     
 }

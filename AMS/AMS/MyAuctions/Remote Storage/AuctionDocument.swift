@@ -101,9 +101,9 @@ class AuctionDocument : Document {
             case "shippingDetails":
                 auction.shippingDetails = data.value as! String
             case "startingPrice":
-                auction.startingPrice = data.value as! Int
+                auction.startingPrice = data.value as! Double
             case "price":
-                auction.price = data.value as! Int
+                auction.price = data.value as! Double
             case "sellerId":
                 auction.sellerId = data.value as! String
             case "buyerId":

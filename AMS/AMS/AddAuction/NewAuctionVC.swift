@@ -89,15 +89,19 @@ class NewAuctionVC: FormViewController, passAuction {
     
     func initiateAuctionForm() {
         form +++
-            
-            TextRow("description") {
-                $0.title = "Description"
+            LabelRow() {
+                $0.title = "Item Description:"
+                $0.cell.height = { 30 }
+            }
+            <<< TextAreaRow("description") {
+                $0.placeholder = "Item Description..."
                 $0.add(rule: RuleRequired())
                 $0.validationOptions = .validatesOnChange
+                $0.textAreaHeight = .dynamic(initialTextViewHeight: 80)
             }
             .cellUpdate { cell, row in
                 if !row.isValid {
-                    cell.titleLabel?.textColor = .red
+                    cell.placeholderLabel?.textColor = .red
                 }
             }
             .onRowValidationChanged { cell, row in
@@ -117,14 +121,19 @@ class NewAuctionVC: FormViewController, passAuction {
                 }
             }
             
-            <<< TextRow("parameters") {
-                $0.title = "Parameters"
+            <<< LabelRow() {
+                $0.title = "Item Parameters:"
+                $0.cell.height = { 30 }
+            }
+            <<< TextAreaRow("parameters") {
+                $0.placeholder = "Parameters..."
                 $0.add(rule: RuleRequired())
                 $0.validationOptions = .validatesOnChange
+                $0.textAreaHeight = .dynamic(initialTextViewHeight: 80)
             }
             .cellUpdate { cell, row in
                 if !row.isValid {
-                    cell.titleLabel?.textColor = .red
+                    cell.placeholderLabel?.textColor = .red
                 }
             }
             .onRowValidationChanged { cell, row in
@@ -144,86 +153,104 @@ class NewAuctionVC: FormViewController, passAuction {
                 }
         }
         
-        <<< TextRow("shippingDetails") {
-            $0.title = "Shipping details"
-            $0.add(rule: RuleRequired())
-            $0.validationOptions = .validatesOnChange
-        }
-        .cellUpdate { cell, row in
-            if !row.isValid {
-                cell.titleLabel?.textColor = .red
+            <<< LabelRow() {
+                $0.title = "Shipping Details:"
+                $0.cell.height = { 30 }
             }
-        }
-        .onRowValidationChanged { cell, row in
-            let rowIndex = row.indexPath!.row
-            while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-                row.section?.remove(at: rowIndex + 1)
+            <<< TextAreaRow("shippingDetails") {
+                $0.placeholder = "Shipping details..."
+                $0.add(rule: RuleRequired())
+                $0.validationOptions = .validatesOnChange
+                $0.textAreaHeight = .dynamic(initialTextViewHeight: 80)
             }
-            if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
-                    let labelRow = LabelRow() {
-                        $0.title = validationMsg
-                        $0.cell.height = { 30 }
-                    }
-                    let indexPath = row.indexPath!.row + index + 1
-                    row.section?.insert(labelRow, at: indexPath)
+            .cellUpdate { cell, row in
+                if !row.isValid {
+                    cell.placeholderLabel?.textColor = .red
                 }
             }
-        }
-        
-        <<< TextRow("startingPrice") {
-            $0.title = "Starting price"
-            $0.add(rule: RuleRequired())
-            $0.validationOptions = .validatesOnChange
-        }
-        .cellUpdate { cell, row in
-            if !row.isValid {
-                cell.titleLabel?.textColor = .red
-            }
-        }
-        .onRowValidationChanged { cell, row in
-            let rowIndex = row.indexPath!.row
-            while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
-                row.section?.remove(at: rowIndex + 1)
-            }
-            if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
-                    let labelRow = LabelRow() {
-                        $0.title = validationMsg
-                        $0.cell.height = { 30 }
+            .onRowValidationChanged { cell, row in
+                let rowIndex = row.indexPath!.row
+                while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+                    row.section?.remove(at: rowIndex + 1)
+                }
+                if !row.isValid {
+                    for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                        let labelRow = LabelRow() {
+                            $0.title = validationMsg
+                            $0.cell.height = { 30 }
+                        }
+                        let indexPath = row.indexPath!.row + index + 1
+                        row.section?.insert(labelRow, at: indexPath)
                     }
-                    let indexPath = row.indexPath!.row + index + 1
-                    row.section?.insert(labelRow, at: indexPath)
                 }
             }
-        }
-        
-        <<< TextRow("finishDate") {
+            
+            <<< DecimalRow("startingPrice") {
+                $0.title = "Starting Price"
+                $0.add(rule: RuleGreaterThan(min: 0.0, msg: "Price too low!", id: ""))
+                $0.validationOptions = .validatesOnChange
+                $0.value = 0.0
+            }
+            .cellSetup({ cell, row in
+                let priceFormatter = DecimalFormatter()
+                priceFormatter.numberStyle = .currency
+                priceFormatter.currencyDecimalSeparator = "."
+                priceFormatter.currencySymbol = "€"
+                
+                row.formatter = priceFormatter
+                row.useFormatterDuringInput = true
+                row.useFormatterOnDidBeginEditing = true
+            })
+            .cellUpdate({ cell, row in
+                if !row.isValid {
+                    cell.titleLabel?.textColor = .red
+                }
+            })
+            .onRowValidationChanged({ cell, row in
+                let rowIndex = row.indexPath!.row
+                while row.section!.count > rowIndex + 1 && row.section?[rowIndex + 1] is LabelRow {
+                    row.section?.remove(at: rowIndex + 1)
+                }
+                if !row.isValid {
+                        for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                            let labelRow = LabelRow() {
+                                $0.title = validationMsg
+                                $0.cell.height = { 30 }
+                            }
+                            let indexPath = row.indexPath!.row + index + 1
+                            row.section?.insert(labelRow, at: indexPath)
+                        }
+                }
+            })
+            
+        <<< DateTimeInlineRow("finishDate") {
             $0.title = "Finish date"
             $0.add(rule: RuleRequired())
             $0.validationOptions = .validatesOnChange
+            $0.value = Date(timeIntervalSinceNow: TimeInterval(600))
         }
-        .cellUpdate { cell, row in
+        .cellUpdate({ cell, row in
+            row.minimumDate = Date(timeIntervalSinceNow: TimeInterval(600))
             if !row.isValid {
-                cell.titleLabel?.textColor = .red
+                cell.textLabel?.textColor = .red
             }
-        }
-        .onRowValidationChanged { cell, row in
+        })
+        .onRowValidationChanged({ cell, row in
             let rowIndex = row.indexPath!.row
-            while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
+            while row.section!.count > rowIndex + 1 && row.section?[rowIndex + 1] is LabelRow {
                 row.section?.remove(at: rowIndex + 1)
             }
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
-                    let labelRow = LabelRow() {
-                        $0.title = validationMsg
-                        $0.cell.height = { 30 }
+                    for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                        let labelRow = LabelRow() {
+                            $0.title = validationMsg
+                            $0.cell.height = { 30 }
+                        }
+                        let indexPath = row.indexPath!.row + index + 1
+                        row.section?.insert(labelRow, at: indexPath)
                     }
-                    let indexPath = row.indexPath!.row + index + 1
-                    row.section?.insert(labelRow, at: indexPath)
-                }
             }
-        }
+        })
     }
     
     func initiatePictureForm() {

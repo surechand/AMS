@@ -10,6 +10,7 @@ import UIKit
 import Eureka
 import Firebase
 import AnimatedGradientView
+import PostalAddressRow
 
 class RegisterSecondStepVC: FormViewController {
     
@@ -25,6 +26,7 @@ class RegisterSecondStepVC: FormViewController {
         self.initiateAddressForm()
         self.initiateValidationForm()
     }
+
     
     func initiateAddressForm() {
         form +++

@@ -57,30 +57,38 @@ extension NewAuctionVC {
         } else {
             self.chosenAuction.name = titleRow!.value!
         }
-        let descriptionRow: TextRow? = form.rowBy(tag: "description")
+        let descriptionRow: TextAreaRow? = form.rowBy(tag: "description")
         if descriptionRow!.value == nil {
             return false
         } else {
             self.chosenAuction.description = descriptionRow!.value!
         }
-        let parametersRow: TextRow? = form.rowBy(tag: "parameters")
+        let parametersRow: TextAreaRow? = form.rowBy(tag: "parameters")
         if parametersRow!.value == nil {
             return false
         } else {
             self.chosenAuction.parameters = parametersRow!.value!
         }
-        let startingPriceRow: TextRow? = form.rowBy(tag: "startingPrice")
+        let shippingDetailsRow: TextAreaRow? = form.rowBy(tag: "shippingDetails")
+        if shippingDetailsRow!.value == nil {
+            return false
+        } else {
+            self.chosenAuction.shippingDetails = shippingDetailsRow!.value!
+        }
+        let startingPriceRow: DecimalRow? = form.rowBy(tag: "startingPrice")
         if startingPriceRow!.value == nil {
             return false
         } else {
-            self.chosenAuction.startingPrice = Int(startingPriceRow!.value!)!
+            self.chosenAuction.startingPrice = startingPriceRow!.value!
             self.chosenAuction.price = self.chosenAuction.startingPrice
         }
-        let finishDateRow: TextRow? = form.rowBy(tag: "finishDate")
+        let finishDateRow: DateTimeInlineRow? = form.rowBy(tag: "finishDate")
         if finishDateRow!.value == nil {
             return false
         } else {
-            self.chosenAuction.finishDate = finishDateRow!.value!
+            let finishDate = finishDateRow?.value
+            let converter = DateConversion()
+            self.chosenAuction.finishDate = converter.stringFromDate(date: finishDate!)
         }
         return true
     }
