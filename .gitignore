@@ -46,3 +46,7 @@ Package.resolved
 Pods/
 #
 *.xcworkspace
+AMS/AMS/GoogleService-Info.plist
+AMS/Podfile
+AMS/Podfile.lock
+.DS_Store
