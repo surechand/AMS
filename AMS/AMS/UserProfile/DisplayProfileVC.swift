@@ -1,8 +1,8 @@
 //
 //  DisplayProfileVC.swift
-//  Lifty
+//  AMS
 //
-//  Created by Angelika Jeziorska on 14/04/2020.
+//  Created by Angelika Jeziorska on 14/10/2020.
 //  Copyright © 2020 Angelika Jeziorska. All rights reserved.
 //
 

@@ -1,8 +1,8 @@
 //
 //  ResetPasswordVC.swift
-//  Lifty
+//  AMS
 //
-//  Created by Angelika Jeziorska on 13/04/2020.
+//  Created by Angelika Jeziorska on 13/10/2020.
 //  Copyright © 2020 Angelika Jeziorska. All rights reserved.
 //
 

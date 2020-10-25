@@ -1,9 +1,9 @@
 //
 //  AuctionsVC.swift
-//  Lifty
+//  AMS
 //
-//  Created by Angelika Jeziorska on 08/12/2019.
-//  Copyright © 2019 Angelika Jeziorska. All rights reserved.
+//  Created by Angelika Jeziorska on 08/10/2020.
+//  Copyright © 2020 Angelika Jeziorska. All rights reserved.
 //
 import UIKit
 import Eureka
@@ -18,8 +18,6 @@ class MyAuctionsVC: FormViewController {
     
     var auctionDelegate: passAuction?
     var themeDelegate: passTheme?
-    
-    private let greenView = UIView()
     
     var auctions = [Auction]()
     var chosenAuction = Auction(name: "")

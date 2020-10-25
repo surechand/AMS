@@ -1,8 +1,8 @@
 //
 //  DataClasses.swift
-//  Lifty
+//  AMS
 //
-//  Created by Angelika Jeziorska on 22/02/2020.
+//  Created by Angelika Jeziorska on 22/10/2020.
 //  Copyright © 2020 Angelika Jeziorska. All rights reserved.
 //
 

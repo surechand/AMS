@@ -11,7 +11,7 @@
         <scene sceneID="Bal-DS-G3D">
             <objects>
                 <navigationController restorationIdentifier="navController" storyboardIdentifier="navController" id="uUZ-h3-t6a" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="list.bullet" catalog="system" id="KO6-Tk-KLJ"/>
+                    <tabBarItem key="tabBarItem" title="" image="dollarsign.circle" catalog="system" id="KO6-Tk-KLJ"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="Vi3-fQ-agR">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -42,8 +42,8 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="square.and.pencil" catalog="system" id="cPa-gy-q4n"/>
-                    <navigationItem key="navigationItem" title="Plans" id="Xpb-5n-8Oi">
+                    <tabBarItem key="tabBarItem" title="" image="bag" catalog="system" id="cPa-gy-q4n"/>
+                    <navigationItem key="navigationItem" title="Auctions" id="Xpb-5n-8Oi">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="ZHz-a7-uIK">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kkm-RB-rkj">
                                 <rect key="frame" x="20" y="0.0" width="74" height="44"/>
@@ -64,7 +64,7 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="plus" catalog="system"/>
                                 <connections>
-                                    <segue destination="VqB-fT-kkn" kind="presentation" identifier="NewAuctionSegue" id="J2L-GE-3Jd"/>
+                                    <segue destination="VqB-fT-kkn" kind="show" identifier="NewAuctionSegue" id="J2L-GE-3Jd"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -156,7 +156,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="0D5-l3-UPd"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Auctions" id="OGg-vY-ogG">
+                    <navigationItem key="navigationItem" title="My auctions" id="OGg-vY-ogG">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="aYw-d5-XKc">
                             <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zvf-Pm-mCe">
                                 <rect key="frame" x="20" y="0.0" width="74" height="44"/>
@@ -487,16 +487,16 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="GFb-mv-kpY"/>
+        <segue reference="a6e-nd-g5a"/>
         <segue reference="Ly6-xb-Yf1"/>
         <segue reference="YTv-h8-6Lj"/>
         <segue reference="zRv-e0-5rg"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="bag" catalog="system" width="128" height="128"/>
+        <image name="dollarsign.circle" catalog="system" width="128" height="121"/>
         <image name="icontransparent" width="1920" height="1920"/>
-        <image name="list.bullet" catalog="system" width="128" height="88"/>
         <image name="person.crop.circle" catalog="system" width="128" height="121"/>
         <image name="plus" catalog="system" width="128" height="113"/>
-        <image name="square.and.pencil" catalog="system" width="128" height="118"/>
     </resources>
 </document>

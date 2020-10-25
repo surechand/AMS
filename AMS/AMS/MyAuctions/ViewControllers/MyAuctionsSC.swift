@@ -1,8 +1,8 @@
 //
 //  AuctionSC.swift
-//  Lifty
+//  AMS
 //
-//  Created by Angelika Jeziorska on 20/04/2020.
+//  Created by Angelika Jeziorska on 20/10/2020.
 //  Copyright © 2020 Angelika Jeziorska. All rights reserved.
 //
 
