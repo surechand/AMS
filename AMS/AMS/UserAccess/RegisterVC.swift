@@ -269,6 +269,7 @@ class RegisterVC: FormViewController {
                                 if let user = user {
                                     // set user document
                                     let userDocument = UserDocument(uid: user.uid)
+                                    userDocument.userRef = userDocument.db.collection("users").document(user.uid)
                                     userDocument.setUserDocument(name: nameRow!.value!, surname: surnameRow!.value!, email: emailRow!.value!)
                                 }
                                 self!.performSegue(withIdentifier: "RegisterSecondStepSegue", sender: self!.GoToSecondStepButton)

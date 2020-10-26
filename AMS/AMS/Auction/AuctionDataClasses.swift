@@ -20,8 +20,8 @@ class Auction: SearchItem, Equatable, CustomStringConvertible {
     var description: String
     var parameters: String
     var shippingDetails: String
-    var startingPrice: Int
-    var price: Int
+    var startingPrice: Double
+    var price: Double
     
     var sellerId: String
     var buyerId: String
