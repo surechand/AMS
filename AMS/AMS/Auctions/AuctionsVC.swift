@@ -33,11 +33,15 @@ class AuctionsVC: FormViewController {
         
         self.initiateForm()
         
-        self.viewCustomisation.customiseTableView(tableView: self.tableView, themeColor: UIColor.systemPink)
+        self.viewCustomisation.customiseTableView(tableView: self.tableView, themeColor: UIColor.white)
+        self.tableView.separatorStyle = .none
+        
+        self.viewCustomisation.setBlueBackgroundGradient(view: self.view)
     }
+
     
     override func viewDidAppear(_ animated: Bool) {
-        self.viewCustomisation.setPinkGradients(viewController: self)
+        self.viewCustomisation.setBlueGradients(viewController: self)
     }
     
     //    MARK: Protocol stubs.
@@ -51,7 +55,9 @@ class AuctionsVC: FormViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? NewAuctionVC{
             self.auctionDelegate = destinationVC
+            self.themeDelegate = destinationVC
             self.auctionDelegate?.finishPassing(chosenAuction: chosenAuction)
+            self.themeDelegate?.finishPassing(theme: UIColor.AMSColors.lighterBlue, gradient: UIImage())
         } else if let destinationVC = segue.destination as? DisplayAuctionVC{
             self.auctionDelegate = destinationVC
             self.auctionDelegate?.finishPassing(chosenAuction: chosenAuction)
@@ -82,6 +88,7 @@ class AuctionsVC: FormViewController {
                 self.form.removeAll()
                 self.originalOptions.removeAll()
                 self.currentOptions.removeAll()
+                let dateConverter = DateConversion()
                 for (index, auction) in self.auctions.enumerated() {
                     self.form +++
                         AuctionRow () {
@@ -91,16 +98,16 @@ class AuctionsVC: FormViewController {
                             $0.title = auction.name
                             $0.onCellSelection(self.assignCellRow)
                         }.cellUpdate { cell, row in
-                            cell.textLabel?.textColor = UIColor.systemIndigo
+                            cell.textLabel?.textColor = UIColor.white
                             cell.indentationLevel = 2
                             cell.indentationWidth = 10
                             cell.textLabel!.textAlignment = .left
                         }.cellSetup { cell, _ in
-                            cell.configure(with: AuctionCellModel(auctionName: auction.name, price: auction.price, auctionImageReference: auction.key + "/photo1.jpeg"))
+                            cell.configure(with: AuctionCellModel(auctionName: auction.name, price: auction.price, auctionImageReference: auction.key + "/photo1.jpeg", auctionEndDate: dateConverter.basicDateFromString(string: auction.finishDate)))
                             let blueGradientImage = CAGradientLayer.blueGradient(on: self.view)
-                            cell.backgroundColor = UIColor.white
-                            cell.layer.borderColor = UIColor(patternImage: blueGradientImage!).cgColor
-                            cell.layer.borderWidth = 3.0
+                            cell.backgroundColor = UIColor.AMSColors.transparentWhite
+                            cell.layer.borderColor = UIColor.white.cgColor
+                            cell.layer.borderWidth = 2.5
                     }
                 }
                 UIView.setAnimationsEnabled(true)

@@ -17,9 +17,9 @@ extension CAGradientLayer {
     
     class func blueGradient(on view: UIView) -> UIImage? {
         let gradient = CAGradientLayer()
-        let indigo = #colorLiteral(red: 0.368627451, green: 0.3607843137, blue: 0.9019607843, alpha: 1)
-        let lightIndigo = #colorLiteral(red: 0.5254901961, green: 0.5254901961, blue: 0.9019607843, alpha: 1)
-        gradient.colors = [indigo.cgColor, lightIndigo.cgColor]
+        let lighterBlue = #colorLiteral(red: 0.2509803922, green: 0.5607843137, blue: 0.6588235294, alpha: 1)
+        let darkerBlue = #colorLiteral(red: 0.137254902, green: 0.3254901961, blue: 0.431372549, alpha: 1)
+        gradient.colors = [lighterBlue.cgColor, darkerBlue.cgColor]
         setGradientBounds(gradient: gradient, view: view)
         return gradient.createGradientImage(on: view)
     }
@@ -38,6 +38,15 @@ extension CAGradientLayer {
         let green = #colorLiteral(red: 0.1882352941, green: 0.8196078431, blue: 0.3450980392, alpha: 1)
         let limeGreen = #colorLiteral(red: 0.628940165, green: 0.8212791085, blue: 0, alpha: 1)
         gradient.colors = [green.cgColor, limeGreen.cgColor]
+        setGradientBounds(gradient: gradient, view: view)
+        return gradient.createGradientImage(on: view)
+    }
+    
+    class func yellowGradient(on view: UIView) -> UIImage? {
+        let gradient = CAGradientLayer()
+        let yellow2 = #colorLiteral(red: 0.9647058824, green: 0.7607843137, blue: 0.3647058824, alpha: 1)
+        let yellow1 = #colorLiteral(red: 0.9647058824, green: 0.6156862745, blue: 0, alpha: 1)
+        gradient.colors = [yellow1.cgColor, yellow2.cgColor]
         setGradientBounds(gradient: gradient, view: view)
         return gradient.createGradientImage(on: view)
     }

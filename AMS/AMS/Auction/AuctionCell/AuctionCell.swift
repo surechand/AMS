@@ -14,6 +14,7 @@ struct AuctionCellModel {
     let auctionName: String
     let price: Double
     let auctionImageReference: String
+    let auctionEndDate: String
 }
 
 class AuctionCell: BaseCell, CellType {
@@ -24,6 +25,7 @@ class AuctionCell: BaseCell, CellType {
     @IBOutlet weak var auctionNameLabel: UILabel!
     @IBOutlet weak var auctionPriceLabel: UILabel!
     @IBOutlet weak var auctionImage: UIImageView!
+    @IBOutlet weak var auctionEndDateLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,8 +42,30 @@ class AuctionCell: BaseCell, CellType {
         let storageRef = storage.reference()
         let imgRef = storageRef.child(model.auctionImageReference)
         auctionImage.sd_setImage(with: imgRef, placeholderImage: UIImage(systemName: "bag"))
+        auctionImage.layer.cornerRadius = 10
+        auctionImage.layer.shadowColor = UIColor.black.cgColor
+        auctionImage.layer.shadowRadius = 2.5
+        auctionImage.layer.shadowOpacity = 0.8
+        auctionImage.layer.shadowOffset = CGSize(width: 2, height: 2)
+        auctionImage.layer.masksToBounds = false
+        
         auctionNameLabel.text = model.auctionName
+        auctionNameLabel.layer.shadowColor = UIColor.black.cgColor
+        auctionNameLabel.layer.shadowRadius = 2.5
+        auctionNameLabel.layer.shadowOpacity = 1.0
+        auctionNameLabel.layer.shadowOffset = CGSize(width: 2, height: 2)
+        auctionNameLabel.layer.masksToBounds = false
+        
         auctionPriceLabel.text = String(model.price) + "€"
+        auctionPriceLabel.layer.shadowColor = UIColor.black.cgColor
+        auctionPriceLabel.layer.shadowRadius = 1.5
+        auctionPriceLabel.layer.shadowOpacity = 0.8
+        auctionPriceLabel.layer.shadowOffset = CGSize(width: 2, height: 2)
+        auctionPriceLabel.layer.masksToBounds = false
+        
+        auctionEndDateLabel.text = "Ends: " + model.auctionEndDate
+        
+        self.layer.cornerRadius = 15
     }
     
 }

@@ -29,7 +29,7 @@ extension NewAuctionVC {
         isValid = self.getData()
         
         if !isValid {
-            AlertView.showInvalidDataAlert(view: self, theme: UIColor.systemIndigo)
+            AlertView.showInvalidDataAlert(view: self, theme: themeColor!)
         } else {
             //            add data to Cloud Firestore
             savePhotoData()

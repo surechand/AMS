@@ -10,12 +10,12 @@ import UIKit
 import Eureka
 import ImageRow
 
-class NewAuctionVC: FormViewController, passAuction {
-    
+class NewAuctionVC: FormViewController, passAuction, passTheme {
     let viewCustomisation = ViewCustomisation()
     var chosenRow: ButtonRowOf<String>?
-    
     var chosenAuction = Auction(name: "")
+    
+    var themeColor: UIColor?
     
     override func viewDidLoad() {
         
@@ -23,7 +23,7 @@ class NewAuctionVC: FormViewController, passAuction {
         
         self.replaceBackButton()
         
-        self.viewCustomisation.customiseTableView(tableView: self.tableView, themeColor: UIColor.systemIndigo)
+        self.viewCustomisation.customiseTableView(tableView: self.tableView, themeColor: themeColor!)
         
         createAuctionTitleForm()
         initiateAuctionForm()
@@ -38,7 +38,11 @@ class NewAuctionVC: FormViewController, passAuction {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.viewCustomisation.setBlueGradients(viewController: self)
+        if themeColor == UIColor.AMSColors.lighterBlue {
+            self.viewCustomisation.setBlueGradients(viewController: self)
+        } else if themeColor == UIColor.AMSColors.yellow {
+            self.viewCustomisation.setYellowGradients(viewController: self)
+        }
     }
     
     //    MARK: Protocol stubs.
@@ -51,7 +55,6 @@ class NewAuctionVC: FormViewController, passAuction {
     //    MARK: Form handling.
     
     func createAuctionTitleForm () {
-        let blueGradientImage = CAGradientLayer.blueGradient(on: self.view)
         form +++
             
             TextRow("Title").cellSetup { cell, row in
@@ -67,8 +70,7 @@ class NewAuctionVC: FormViewController, passAuction {
                 else {
                     cell.textField.placeholder = row.tag
                 }
-                cell.textField!.textColor = UIColor.systemIndigo
-                self.viewCustomisation.setLabelRowCellProperties(cell: cell, textColor: UIColor.systemIndigo, borderColor: UIColor(patternImage: blueGradientImage!))
+                self.viewCustomisation.setLabelRowCellProperties(cell: cell, textColor: UIColor.black, borderColor: self.themeColor!)
             }.onRowValidationChanged { cell, row in
                 let rowIndex = row.indexPath!.row
                 while row.section!.count > rowIndex + 1 && row.section?[rowIndex  + 1] is LabelRow {
@@ -90,7 +92,7 @@ class NewAuctionVC: FormViewController, passAuction {
     func initiateAuctionForm() {
         form +++
             LabelRow() {
-                $0.title = "Item Description:"
+                $0.title = "Item Description"
                 $0.cell.height = { 30 }
             }
             <<< TextAreaRow("description") {
@@ -122,7 +124,7 @@ class NewAuctionVC: FormViewController, passAuction {
             }
             
             <<< LabelRow() {
-                $0.title = "Item Parameters:"
+                $0.title = "Item Parameters"
                 $0.cell.height = { 30 }
             }
             <<< TextAreaRow("parameters") {
@@ -154,7 +156,7 @@ class NewAuctionVC: FormViewController, passAuction {
         }
         
             <<< LabelRow() {
-                $0.title = "Shipping Details:"
+                $0.title = "Shipping Details"
                 $0.cell.height = { 30 }
             }
             <<< TextAreaRow("shippingDetails") {
@@ -273,6 +275,10 @@ class NewAuctionVC: FormViewController, passAuction {
             $0.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum]
             $0.clearAction = .yes(style: .default)
         }
+    }
+    
+    func finishPassing(theme: UIColor, gradient: UIImage) {
+        self.themeColor = theme
     }
     
 }

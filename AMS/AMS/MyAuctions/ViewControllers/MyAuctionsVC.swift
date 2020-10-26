@@ -46,13 +46,16 @@ class MyAuctionsVC: FormViewController {
         }
         
         self.initiateForm()
-        self.viewCustomisation.customiseTableView(tableView: self.tableView, themeColor: UIColor.systemIndigo)
+        self.viewCustomisation.customiseTableView(tableView: self.tableView, themeColor: UIColor.AMSColors.yellow)
+        self.tableView.separatorStyle = .none
+        
+        self.viewCustomisation.setYellowBackgroundGradient(view: self.view)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
         self.currentOptions = self.originalOptions
-        self.viewCustomisation.setBlueGradients(viewController: self)
+        self.viewCustomisation.setYellowGradients(viewController: self)
         
     }
     
@@ -63,10 +66,10 @@ class MyAuctionsVC: FormViewController {
         for subView in searchController.searchBar.subviews {
             if let scopeBar = subView as? UISegmentedControl {
                 scopeBar.backgroundColor = UIColor.white
-                scopeBar.tintColor = UIColor.systemIndigo
+                scopeBar.tintColor = UIColor.systemYellow
             }
         }
-        searchController.searchBar.setScopeBarButtonTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemIndigo], for: .selected)
+        searchController.searchBar.setScopeBarButtonTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemYellow], for: .selected)
         searchController.searchBar.setScopeBarButtonTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
         if let topView = searchController.searchBar.subviews.first {
             for subView in topView.subviews {
@@ -78,10 +81,10 @@ class MyAuctionsVC: FormViewController {
         }
         searchController.searchBar.delegate = self
         if let textfield = searchController.searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.backgroundColor = UIColor.white
-            textfield.tintColor = UIColor.systemIndigo
-            textfield.textColor = UIColor.systemIndigo
-            textfield.attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemIndigo])
+            textfield.backgroundColor = UIColor.AMSColors.transparentWhite
+            textfield.tintColor = UIColor.systemYellow
+            textfield.textColor = UIColor.white
+            textfield.attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
             if let backgroundview = textfield.subviews.first {
                 backgroundview.backgroundColor = UIColor.white
             }
@@ -99,7 +102,9 @@ class MyAuctionsVC: FormViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? NewAuctionVC{
             self.auctionDelegate = destinationVC
+            self.themeDelegate = destinationVC
             self.auctionDelegate?.finishPassing(chosenAuction: chosenAuction)
+            self.themeDelegate?.finishPassing(theme: UIColor.AMSColors.yellow, gradient: UIImage())
         } else if let destinationVC = segue.destination as? DisplayAuctionVC{
             self.auctionDelegate = destinationVC
             self.auctionDelegate?.finishPassing(chosenAuction: chosenAuction)
@@ -131,6 +136,7 @@ class MyAuctionsVC: FormViewController {
                 self.form.removeAll()
                 self.originalOptions.removeAll()
                 self.currentOptions.removeAll()
+                let dateConverter = DateConversion()
                 for (index, auction) in self.auctions.enumerated() {
                     self.form +++
                         AuctionRow () {
@@ -140,16 +146,16 @@ class MyAuctionsVC: FormViewController {
                             $0.title = auction.name
                             $0.onCellSelection(self.assignCellRow)
                         }.cellUpdate { cell, row in
-                            cell.textLabel?.textColor = UIColor.systemIndigo
+                            cell.textLabel?.textColor = UIColor.white
                             cell.indentationLevel = 2
                             cell.indentationWidth = 10
                             cell.textLabel!.textAlignment = .left
                         }.cellSetup { cell, _ in
-                            cell.configure(with: AuctionCellModel(auctionName: auction.name, price: auction.price, auctionImageReference: auction.key + "/photo1.jpeg"))
+                            cell.configure(with: AuctionCellModel(auctionName: auction.name, price: auction.price, auctionImageReference: auction.key + "/photo1.jpeg", auctionEndDate: dateConverter.basicDateFromString(string: auction.finishDate)))
                             let blueGradientImage = CAGradientLayer.blueGradient(on: self.view)
-                            cell.backgroundColor = UIColor.white
-                            cell.layer.borderColor = UIColor(patternImage: blueGradientImage!).cgColor
-                            cell.layer.borderWidth = 3.0
+                            cell.backgroundColor = UIColor.AMSColors.transparentWhite
+                            cell.layer.borderColor = UIColor.white.cgColor
+                            cell.layer.borderWidth = 2.5
                         }
                 }
                 UIView.setAnimationsEnabled(true)
