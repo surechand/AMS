@@ -110,7 +110,7 @@ class MyAuctionsVC: FormViewController {
             self.auctionDelegate?.finishPassing(chosenAuction: chosenAuction)
         } else if let destinationVC = segue.destination as? DisplayProfileVC{
             self.themeDelegate = destinationVC
-            self.themeDelegate?.finishPassing(theme: UIColor.systemIndigo, gradient: CAGradientLayer.blueGradient(on: self.view)!)
+            self.themeDelegate?.finishPassing(theme: UIColor.AMSColors.yellow, gradient: CAGradientLayer.yellowGradient(on: self.view)!)
         }
     }
     
