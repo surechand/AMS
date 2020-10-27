@@ -21,6 +21,7 @@ class UserDocument {
     
     init(uid: String) {
         self.uid = uid
+        self.userRef = db.collection("users").document(self.uid)
     }
     
     func setUserDocument (name: String, surname: String, email: String) {

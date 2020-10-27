@@ -249,11 +249,16 @@ class EditUserDataVC: FormViewController, passTheme {
     
     override func viewWillDisappear(_ animated: Bool) {
         var allValid = true
-        for row in self.form.rows {
-            if !row.isValid {
-                allValid = false
-            }
+        if form.validate().isEmpty {
+            allValid = true
+        } else {
+            allValid = false
         }
+//        for row in self.form.rows {
+//            if !row.isValid {
+//                allValid = false
+//            }
+//        }
         if allValid == true {
             let user = Auth.auth().currentUser
             if let user = user {

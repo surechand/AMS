@@ -19,5 +19,17 @@ class DateConversion {
         return dateFormatter.date(from: string)
     }
     
+    func basicDateFromString(string: String) -> String {
+        let date: Date? = dateFromString(string: string)
+        if date != nil {
+            let basicFormatter = DateFormatter()
+            basicFormatter.dateFormat = "HH:mm dd/MM"
+            return basicFormatter.string(from: date!)
+        } else {
+            return ""
+        }
+
+    }
+    
 }
 
