@@ -14,7 +14,7 @@ struct AuctionCellModel {
     let auctionName: String
     let price: Double
     let auctionImageReference: String
-    let auctionEndDate: String
+    let auctionEndDate: Date
 }
 
 class AuctionCell: BaseCell, CellType {
@@ -38,6 +38,8 @@ class AuctionCell: BaseCell, CellType {
 //    }
     
     public func configure(with model: AuctionCellModel) {
+        let dateConverter = DateConversion()
+        let options: ISO8601DateFormatter.Options = [.withDay, .withMonth, .withTime]
         let storage = Storage.storage()
         let storageRef = storage.reference()
         let imgRef = storageRef.child(model.auctionImageReference)
@@ -63,7 +65,12 @@ class AuctionCell: BaseCell, CellType {
         auctionPriceLabel.layer.shadowOffset = CGSize(width: 2, height: 2)
         auctionPriceLabel.layer.masksToBounds = false
         
-        auctionEndDateLabel.text = "Ends: " + model.auctionEndDate
+        if model.auctionEndDate < Date() {
+            auctionEndDateLabel.text = "Ended: " + dateConverter.stringFromDate(date: model.auctionEndDate, format: "mm:HH, dd/MM")
+            auctionEndDateLabel.textColor = .red
+        } else {
+            auctionEndDateLabel.text = "Ends: " + dateConverter.stringFromDate(date: model.auctionEndDate, format: "mm:HH, dd/MM")
+        }
         
         self.layer.cornerRadius = 15
     }

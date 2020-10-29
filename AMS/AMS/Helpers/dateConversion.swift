@@ -10,26 +10,19 @@ import Foundation
 
 class DateConversion {
     let dateFormatter: ISO8601DateFormatter = ISO8601DateFormatter()
+    let basicDateFormatter: DateFormatter = DateFormatter()
     
     func stringFromDate(date: Date) -> String {
         return dateFormatter.string(from: date)
     }
     
-    func dateFromString(string: String) -> Date? {
-        return dateFormatter.date(from: string)
+    func dateFromString(string: String) -> Date {
+        return dateFormatter.date(from: string) ?? Date()
     }
     
-    func basicDateFromString(string: String) -> String {
-        let date: Date? = dateFromString(string: string)
-        if date != nil {
-            let basicFormatter = DateFormatter()
-            basicFormatter.dateFormat = "HH:mm dd/MM"
-            return basicFormatter.string(from: date!)
-        } else {
-            return ""
-        }
-
+    func stringFromDate(date: Date, format: String) -> String {
+        basicDateFormatter.dateFormat = format
+        return basicDateFormatter.string(from: date)
     }
-    
 }
 

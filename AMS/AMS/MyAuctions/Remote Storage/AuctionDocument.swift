@@ -66,7 +66,7 @@ class AuctionDocument : Document {
     
     //    MARK: Methods for getting the values for auctions.
     
-    func getAuctionDocument (completion: @escaping ([Auction]) -> Void)  {
+    func getAuctionDocument (uid: String, completion: @escaping ([Auction]) -> Void)  {
         var loadedAuctions = [Auction]()
         self.collectionRef!.getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -80,6 +80,28 @@ class AuctionDocument : Document {
                         auction.bidders = bidders
                     })
                     loadedAuctions.append(auction)
+                }
+                completion(loadedAuctions)
+            }
+        }
+    }
+    
+    func getMyAuctionsDocument (uid: String, completion: @escaping ([Auction]) -> Void)  {
+        var loadedAuctions = [Auction]()
+        self.collectionRef!.getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                completion(loadedAuctions)
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    let auction = Auction(name: "")
+                    self.manageLoadedAuctionData(auction: auction, data: document.data())
+                    self.getAuctionBidders(auctionKey: auction.key, completion: { bidders in
+                        auction.bidders = bidders
+                    })
+                    if self.checkForType(auction: auction, uid: uid) {
+                        loadedAuctions.append(auction)
+                    }
                 }
                 completion(loadedAuctions)
             }
@@ -115,6 +137,29 @@ class AuctionDocument : Document {
             default:
                 print("Undefined key.")
             }
+        }
+    }
+
+    func checkForType (auction: Auction, uid: String) -> Bool {
+        let dateConverter = DateConversion()
+        if auction.sellerId == uid {
+            if auction.finishDate != "" && dateConverter.dateFromString(string: auction.finishDate) < Date() {
+                auction.type = "Sold"
+            } else {
+                auction.type = "Selling"
+            }
+            return true
+        } else {
+            if auction.buyerId == uid {
+                auction.type = "Bidding"
+                return true
+            } else if auction.bidders.contains(where: { bidder in
+                return bidder.id == uid ? true : false
+            }) {
+                auction.type = "Bidding"
+                return true
+            }
+            return false
         }
     }
     
