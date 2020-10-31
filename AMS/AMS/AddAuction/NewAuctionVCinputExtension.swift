@@ -51,6 +51,7 @@ extension NewAuctionVC {
     //    MARK: Input validation.
     
     func getData () -> Bool {
+        let converter = DateFns()
         let titleRow: TextRow? = form.rowBy(tag: "Title")
         if titleRow!.value == nil {
             return false
@@ -87,9 +88,9 @@ extension NewAuctionVC {
             return false
         } else {
             let finishDate = finishDateRow?.value
-            let converter = DateConversion()
             self.chosenAuction.finishDate = converter.stringFromDate(date: finishDate!)
         }
+        self.chosenAuction.startDate = converter.stringFromDate(date: Date())
         return true
     }
     

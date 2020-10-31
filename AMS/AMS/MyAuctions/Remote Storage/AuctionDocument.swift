@@ -37,10 +37,6 @@ class AuctionDocument : Document {
             "startDate": auction.startDate,
             "finishDate": auction.finishDate
         ], forDocument: auctionRef)
-        for bidder in auction.bidders {
-            setBiddersDocument(bidder: bidder, rootDoc: self.collectionRef!.document(self.key), batch: batch, completion: {
-            })
-        }
         batch.commit() { err in
             if let err = err {
                 completion()
@@ -52,15 +48,12 @@ class AuctionDocument : Document {
         }
     }
     
-    func setBiddersDocument(bidder: Bidder, rootDoc: DocumentReference, batch: WriteBatch, completion: @escaping () -> Void) {
-        let exerciseRef = rootDoc.collection("bidders").document(bidder.id)
+    func setBiddersDocument(bidderId: String,bidder: Bidder, rootDoc: DocumentReference, batch: WriteBatch, completion: @escaping () -> Void) {
+        let biddersRef = rootDoc.collection("bidders").document(bidderId)
         batch.setData([
-            "name": bidder.name,
-            "surname": bidder.surname,
-            "id": bidder.id,
             "offer": bidder.offer,
             "date": bidder.date
-        ], forDocument: exerciseRef)
+        ], forDocument: biddersRef)
         completion()
     }
     
@@ -88,7 +81,8 @@ class AuctionDocument : Document {
     
     //    Assigning data to a auction.
     func manageLoadedAuctionData (auction: Auction, data: [String:Any]) {
-        for data in data {
+                for data in data {
+
             switch data.key {
             case "name":
                 auction.name = data.value as! String
@@ -142,13 +136,7 @@ class AuctionDocument : Document {
     func manageLoadedBiddereData (bidder: Bidder, data: [String:Any]) {
         for data in data {
             switch data.key {
-            case "name":
-                bidder.name = data.value as! String
-            case "surname":
-                bidder.surname = data.value as! String
-            case "id":
-                bidder.id = data.value as! String
-            case "offer":
+            case "price":
                 bidder.offer = data.value as! Int
             case "date":
                 bidder.date = data.value as! String
@@ -178,8 +166,15 @@ class AuctionDocument : Document {
     }
     
     func deleteBiddersDocument(bidder: Bidder, rootDoc: DocumentReference, batch: WriteBatch, completion: @escaping () -> Void) {
-        let exerciseRef = rootDoc.collection("bidders").document(bidder.id)
-        batch.deleteDocument(exerciseRef)
+        rootDoc.collection("bidders").getDocuments { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    document.reference.delete()
+                }
+            }
+        }
     }
     
 }

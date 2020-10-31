@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Auction: SearchItem, Equatable, CustomStringConvertible {
+class Auction: DateFns, SearchItem, Equatable, CustomStringConvertible {
     static func == (lhs: Auction, rhs: Auction) -> Bool {
         return true
     }
@@ -78,24 +78,15 @@ class Auction: SearchItem, Equatable, CustomStringConvertible {
 
 
 class Bidder {
-    var name: String
-    var surname: String
-    var id: String
     var offer: Int
     var date: String
     
     init() {
-        self.name = "Bidder"
-        self.id = ""
-        self.surname = ""
         self.offer = 0
         self.date = ""
     }
     
     func assign(bidderToAssign: Bidder) {
-        self.name = bidderToAssign.name
-        self.id = bidderToAssign.id
-        self.surname = bidderToAssign.surname
         self.offer = bidderToAssign.offer
         self.date = bidderToAssign.date
     }

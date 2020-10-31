@@ -88,7 +88,7 @@ class AuctionsVC: FormViewController {
                 self.form.removeAll()
                 self.originalOptions.removeAll()
                 self.currentOptions.removeAll()
-                let dateConverter = DateConversion()
+                let dateConverter = DateFns()
                 for (index, auction) in self.auctions.enumerated() {
                     self.form +++
                         AuctionRow () {
