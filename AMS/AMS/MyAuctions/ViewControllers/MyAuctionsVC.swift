@@ -131,8 +131,8 @@ class MyAuctionsVC: FormViewController {
         let user = Auth.auth().currentUser
         if let user = user {    
             let auctionDocument = AuctionDocument(key: chosenAuction.key)
-            auctionDocument.getMyAuctionsDocument(uid: user.uid, completion: { loadedAuctions in
-                self.auctions = loadedAuctions
+            auctionDocument.getAuctionDocument(uid: user.uid, completion: { loadedAuctions in
+                self.auctions = self.checkForType(auctions: loadedAuctions, uid: user.uid)
                 UIView.setAnimationsEnabled(false)
                 self.form.removeAll()
                 self.originalOptions.removeAll()
@@ -178,4 +178,24 @@ class MyAuctionsVC: FormViewController {
         }
     }
     
+    func checkForType (auctions: [Auction], uid: String) -> [Auction] {
+        let dateConverter = DateConversion()
+        var toReturn = [Auction]()
+        for auction in auctions {
+            if auction.sellerId == uid {
+                if auction.finishDate != "" && dateConverter.dateFromString(string: auction.finishDate) < Date() {
+                    auction.type = "Sold"
+                } else {
+                    auction.type = "Selling"
+                }
+                toReturn.append(auction)
+            } else {
+                if auction.buyerId == uid || auction.bidders.contains(where: { $0.id == uid ? true : false }){
+                    auction.type = "Bidding"
+                    toReturn.append(auction)
+                }
+            }
+        }
+        return toReturn
+    }
 }

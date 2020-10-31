@@ -86,28 +86,6 @@ class AuctionDocument : Document {
         }
     }
     
-    func getMyAuctionsDocument (uid: String, completion: @escaping ([Auction]) -> Void)  {
-        var loadedAuctions = [Auction]()
-        self.collectionRef!.getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                completion(loadedAuctions)
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    let auction = Auction(name: "")
-                    self.manageLoadedAuctionData(auction: auction, data: document.data())
-                    self.getAuctionBidders(auctionKey: auction.key, completion: { bidders in
-                        auction.bidders = bidders
-                    })
-                    if self.checkForType(auction: auction, uid: uid) {
-                        loadedAuctions.append(auction)
-                    }
-                }
-                completion(loadedAuctions)
-            }
-        }
-    }
-    
     //    Assigning data to a auction.
     func manageLoadedAuctionData (auction: Auction, data: [String:Any]) {
         for data in data {
@@ -137,29 +115,6 @@ class AuctionDocument : Document {
             default:
                 print("Undefined key.")
             }
-        }
-    }
-
-    func checkForType (auction: Auction, uid: String) -> Bool {
-        let dateConverter = DateConversion()
-        if auction.sellerId == uid {
-            if auction.finishDate != "" && dateConverter.dateFromString(string: auction.finishDate) < Date() {
-                auction.type = "Sold"
-            } else {
-                auction.type = "Selling"
-            }
-            return true
-        } else {
-            if auction.buyerId == uid {
-                auction.type = "Bidding"
-                return true
-            } else if auction.bidders.contains(where: { bidder in
-                return bidder.id == uid ? true : false
-            }) {
-                auction.type = "Bidding"
-                return true
-            }
-            return false
         }
     }
     
@@ -193,7 +148,7 @@ class AuctionDocument : Document {
                 bidder.surname = data.value as! String
             case "id":
                 bidder.id = data.value as! String
-            case "offer":
+            case "price":
                 bidder.offer = data.value as! Int
             case "date":
                 bidder.date = data.value as! String
