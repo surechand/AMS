@@ -66,10 +66,10 @@ class AuctionCell: BaseCell, CellType {
         auctionPriceLabel.layer.masksToBounds = false
         
         if model.auctionEndDate < Date() {
-            auctionEndDateLabel.text = "Ended: " + dateConverter.stringFromDate(date: model.auctionEndDate, format: "mm:HH, dd/MM")
+            auctionEndDateLabel.text = "Ended: " + dateConverter.stringFromDate(date: model.auctionEndDate, format: "HH:mm, dd/MM")
             auctionEndDateLabel.textColor = .red
         } else {
-            auctionEndDateLabel.text = "Ends: " + dateConverter.stringFromDate(date: model.auctionEndDate, format: "mm:HH, dd/MM")
+            auctionEndDateLabel.text = "Ends: " + dateConverter.stringFromDate(date: model.auctionEndDate, format: "HH:mm, dd/MM")
         }
         
         self.layer.cornerRadius = 15
