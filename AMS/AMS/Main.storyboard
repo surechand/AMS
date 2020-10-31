@@ -122,6 +122,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HiraginoSans-W6" family="Hiragino Sans" pointSize="30"/>
                                 <state key="normal" title="BID"/>
+                                <connections>
+                                    <action selector="placeBid:" destination="8dS-zr-tCA" eventType="touchUpInside" id="jlb-O0-4Aj"/>
+                                </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d2i-5c-AmD">
                                 <rect key="frame" x="20" y="347" width="374" height="224"/>

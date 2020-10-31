@@ -48,13 +48,22 @@ class AuctionDocument : Document {
         }
     }
     
-    func setBiddersDocument(bidderId: String,bidder: Bidder, rootDoc: DocumentReference, batch: WriteBatch, completion: @escaping () -> Void) {
-        let biddersRef = rootDoc.collection("bidders").document(bidderId)
+    func setBiddersDocument(bidderId: String,bidder: Bidder, auctionKey: String, completion: @escaping () -> Void) {
+        let batch = db.batch()
+        let biddersRef = self.collectionRef!.document(auctionKey).collection("bidders").document(bidderId)
         batch.setData([
-            "offer": bidder.offer,
+            "price": bidder.offer,
             "date": bidder.date
         ], forDocument: biddersRef)
-        completion()
+        batch.commit() { err in
+            if let err = err {
+                completion()
+                print("Error writing batch \(err)")
+            } else {
+                completion()
+                print("Batch write succeeded.")
+            }
+        }
     }
     
     //    MARK: Methods for getting the values for auctions.
@@ -81,8 +90,8 @@ class AuctionDocument : Document {
     
     //    Assigning data to a auction.
     func manageLoadedAuctionData (auction: Auction, data: [String:Any]) {
-                for data in data {
-
+        for data in data {
+            
             switch data.key {
             case "name":
                 auction.name = data.value as! String
@@ -137,7 +146,7 @@ class AuctionDocument : Document {
         for data in data {
             switch data.key {
             case "price":
-                bidder.offer = data.value as! Int
+                bidder.offer = data.value as! Double
             case "date":
                 bidder.date = data.value as! String
             default:

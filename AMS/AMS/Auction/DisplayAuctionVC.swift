@@ -49,7 +49,7 @@ class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
     func setTextViewAppearance(textView: UITextView) {
         textView.delegate  = self
         textView.showsHorizontalScrollIndicator = false
-        textView.adjustUITextViewHeight()
+        //        textView.adjustUITextViewHeight()
         textView.textContainerInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         textView.layer.borderColor = UIColor(patternImage: gradientImage).cgColor
         textView.layer.borderWidth = 3.0
@@ -112,16 +112,35 @@ class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
     }
     
     func loadBidders () {
+        self.biddersTextView.text = ""
         if (chosenAuction.bidders.isEmpty) {
             biddersTextView.text += "There are no bidders yet."
         } else {
             for bidder in chosenAuction.bidders {
-                biddersTextView.text += "\n" + String(bidder.offer) + "         " + self.chosenAuction.basicDateFromString(string: bidder.date)
+                biddersTextView.text += "\n" + String(bidder.offer) + "€         " + self.chosenAuction.basicDateFromString(string: bidder.date)
             }
             biddersTextView.text += "\n"
         }
         self.setTextViewAppearance(textView: biddersTextView)
     }
+    
+    @IBAction func placeBid(_ sender: Any) {
+        if(!(offerTextInput.text?.isEmpty ?? false)) {
+            let bidder = Bidder()
+            bidder.offer = Double(offerTextInput.text!)!
+            let isBigger = chosenAuction.bidders.map{ $0.offer < bidder.offer }.isEmpty
+            if (isBigger) {
+                bidder.date = self.chosenAuction.stringFromDate(date: Date())
+                self.chosenAuction.bidders.append(bidder)
+                let user = Auth.auth().currentUser
+                let auctionDocument = AuctionDocument(key: chosenAuction.key)
+                if let user = user {
+                    auctionDocument.setBiddersDocument(bidderId: user.uid, bidder: bidder, auctionKey: chosenAuction.key, completion: {self.loadBidders()})
+                }
+            }
+        }
+    }
+    
 }
 
 //MARK: - UITextView extension for height adjustment.
@@ -137,10 +156,10 @@ extension UITextView{
     func adjustUITextViewHeight()
     {
         var frame = self.frame
-        if self.contentSize.height < 500 {
+        if self.contentSize.height < 250 {
             frame.size.height = self.contentSize.height
         } else {
-            frame.size.height = 500
+            frame.size.height = 250
         }
         self.frame = frame
         

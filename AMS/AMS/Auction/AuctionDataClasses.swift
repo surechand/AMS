@@ -78,7 +78,7 @@ class Auction: DateFns, SearchItem, Equatable, CustomStringConvertible {
 
 
 class Bidder {
-    var offer: Int
+    var offer: Double
     var date: String
     
     init() {
