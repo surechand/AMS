@@ -130,7 +130,7 @@ class MyAuctionsVC: FormViewController {
         let user = Auth.auth().currentUser
         if let user = user {    
             let auctionDocument = AuctionDocument(key: chosenAuction.key)
-            auctionDocument.getAuctionDocument(completion: { loadedAuctions in
+            auctionDocument.getMyAuctionsDocument(uid: user.uid, completion: { loadedAuctions in
                 self.auctions = loadedAuctions
                 UIView.setAnimationsEnabled(false)
                 self.form.removeAll()
@@ -152,7 +152,6 @@ class MyAuctionsVC: FormViewController {
                             cell.textLabel!.textAlignment = .left
                         }.cellSetup { cell, _ in
                             cell.configure(with: AuctionCellModel(auctionName: auction.name, price: auction.price, auctionImageReference: auction.key + "/photo1.jpeg", auctionEndDate: dateConverter.basicDateFromString(string: auction.finishDate)))
-                            let blueGradientImage = CAGradientLayer.blueGradient(on: self.view)
                             cell.backgroundColor = UIColor.AMSColors.transparentWhite
                             cell.layer.borderColor = UIColor.white.cgColor
                             cell.layer.borderWidth = 2.5

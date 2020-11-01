@@ -90,6 +90,7 @@ class AuctionsVC: FormViewController {
                 self.currentOptions.removeAll()
                 let dateConverter = DateFns()
                 for (index, auction) in self.auctions.enumerated() {
+                    //print(auction.bidders.count)
                     self.form +++
                         AuctionRow () {
                             self.originalOptions.append($0)
