@@ -110,48 +110,8 @@ class AuctionDocument : Document {
     
     func getMyAuctionsDocument (uid: String, completion: @escaping ([Auction]) -> Void) {
         var loadedAuctions = [Auction]()
-        
-        let userCreatedAuctionsQuery = collectionRef?.whereField("sellerId", isEqualTo: uid)
-        userCreatedAuctionsQuery?.getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    let auction = Auction(name: "")
-                    self.manageLoadedAuctionData(auction: auction, data: document.data())
-                    self.getAuctionBidders(auctionKey: auction.key, completion: { bidders in
-                        auction.bidders = bidders
-                    })
-                    if auction.compareDates(startDate: auction.stringFromDate(date: Date()), finishDate: auction.finishDate) {
-                        auction.type = "Sold"
-                    } else {
-                        auction.type = "Selling"
-                    }
-                    loadedAuctions.append(auction)
-                }
-                completion(loadedAuctions)
-            }
-        }
-        
-        let userWonAuctionsQuery = collectionRef?.whereField("buyerId", isEqualTo: uid)
-        userWonAuctionsQuery?.getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    let auction = Auction(name: "")
-                    self.manageLoadedAuctionData(auction: auction, data: document.data())
-                    self.getAuctionBidders(auctionKey: auction.key, completion: { bidders in
-                        auction.bidders = bidders
-                    })
-                    auction.type = "Sold"
-                    loadedAuctions.append(auction)
-                }
-                completion(loadedAuctions)
-            }
-        }
-        
         let userBidsQuery = db.collection("users").document(uid).collection("bids")
+        
         userBidsQuery.getDocuments() {(querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -160,24 +120,37 @@ class AuctionDocument : Document {
                 for document in querySnapshot!.documents {
                     if let auctionId = document.data()["auctionId"] as? String {
                         if auctionId != "" && !processedAuctionsIds.contains(where: { $0 == auctionId }) {
-                            let auctionQuery = self.collectionRef?.document(auctionId)
-
-                            auctionQuery?.getDocument() { (querySnapshot2, err2) in
-                                if let err2 = err2 {
-                                    print("Error getting documents: \(err)")
+                            processedAuctionsIds.append(auctionId)
+                        }
+                    }
+                }
+                
+                self.collectionRef?.getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            let auction = Auction(name: "")
+                            self.manageLoadedAuctionData(auction: auction, data: document.data())
+                            self.getAuctionBidders(auctionKey: auction.key, completion: { bidders in
+                                auction.bidders = bidders
+                            })
+                            if auction.sellerId == uid {
+                                if auction.compareDates(startDate: auction.stringFromDate(date: Date()), finishDate: auction.finishDate) {
+                                    auction.type = "Sold"
                                 } else {
-                                    let auction = Auction(name: "")
-                                    self.manageLoadedAuctionData(auction: auction, data: (querySnapshot2?.data())!)
-                                    self.getAuctionBidders(auctionKey: auction.key, completion: { bidders in
-                                        auction.bidders = bidders
-                                    })
-                                    auction.type = "Bidding"
-                                    loadedAuctions.append(auction)
-                                    processedAuctionsIds.append(auctionId)
+                                    auction.type = "Selling"
                                 }
-                                completion(loadedAuctions)
+                                loadedAuctions.append(auction)
+                            } else if auction.buyerId == uid {
+                                auction.type = "Sold"
+                                loadedAuctions.append(auction)
+                            } else if processedAuctionsIds.contains(where: { $0 == auction.key }) {
+                                auction.type = "Bidding"
+                                loadedAuctions.append(auction)
                             }
                         }
+                        completion(loadedAuctions)
                     }
                 }
             }
