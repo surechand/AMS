@@ -158,24 +158,25 @@ class AuctionDocument : Document {
             } else {
                 var processedAuctionsIds = [String]()
                 for document in querySnapshot!.documents {
-                    let auctionId = document.data()["auctionId"] as! String
-                    if auctionId != "" && !processedAuctionsIds.contains(where: { $0 == auctionId }) {
-                        let auctionQuery = self.collectionRef?.document(auctionId)
+                    if let auctionId = document.data()["auctionId"] as? String {
+                        if auctionId != "" && !processedAuctionsIds.contains(where: { $0 == auctionId }) {
+                            let auctionQuery = self.collectionRef?.document(auctionId)
 
-                        auctionQuery?.getDocument() { (querySnapshot2, err2) in
-                            if let err2 = err2 {
-                                print("Error getting documents: \(err)")
-                            } else {
-                                let auction = Auction(name: "")
-                                self.manageLoadedAuctionData(auction: auction, data: (querySnapshot2?.data())!)
-                                self.getAuctionBidders(auctionKey: auction.key, completion: { bidders in
-                                    auction.bidders = bidders
-                                })
-                                auction.type = "Bidding"
-                                loadedAuctions.append(auction)
-                                processedAuctionsIds.append(auctionId)
+                            auctionQuery?.getDocument() { (querySnapshot2, err2) in
+                                if let err2 = err2 {
+                                    print("Error getting documents: \(err)")
+                                } else {
+                                    let auction = Auction(name: "")
+                                    self.manageLoadedAuctionData(auction: auction, data: (querySnapshot2?.data())!)
+                                    self.getAuctionBidders(auctionKey: auction.key, completion: { bidders in
+                                        auction.bidders = bidders
+                                    })
+                                    auction.type = "Bidding"
+                                    loadedAuctions.append(auction)
+                                    processedAuctionsIds.append(auctionId)
+                                }
+                                completion(loadedAuctions)
                             }
-                            completion(loadedAuctions)
                         }
                     }
                 }
@@ -254,13 +255,14 @@ class AuctionDocument : Document {
     
     //    MARK: Methods for deleting auctions.
     
-    func deleteAuctionDocument (auction: Auction) {
+    func deleteAuctionDocument (uid: String, auction: Auction) {
         let batch = db.batch()
         let auctionRef = self.collectionRef!.document(auction.key)
         for bidder in auction.bidders {
             deleteBiddersDocument(bidder: bidder, rootDoc: self.collectionRef!.document(auction.key), batch: batch, completion: {
             })
         }
+        deleteUserBids(auction: auction, uid: uid, completion: { })
         batch.deleteDocument(auctionRef)
         batch.commit() { err in
             if let err = err {
@@ -283,4 +285,17 @@ class AuctionDocument : Document {
         }
     }
     
+    func deleteUserBids(auction: Auction, uid: String, completion: @escaping () -> Void) {
+        let userBidRef = db.collection("users").document(uid).collection("bids").whereField("auctionId", isEqualTo: auction.key)
+        
+        userBidRef.getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Failed to delete user Bids, \(err)")
+            } else {
+                querySnapshot?.documents.forEach({
+                    $0.reference.delete()
+                })
+            }
+        }
+    }
 }

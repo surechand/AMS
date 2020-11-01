@@ -21,7 +21,7 @@ extension NewAuctionVC {
         
         if chosenAuction.key != "" {
             let auctionDocument = AuctionDocument(key: chosenAuction.key)
-            auctionDocument.deleteAuctionDocument(auction: self.chosenAuction)
+            auctionDocument.deleteAuctionDocument(uid: Auth.auth().currentUser!.uid, auction: self.chosenAuction)
         } else {
             chosenAuction.key = getRandomKey()
         }

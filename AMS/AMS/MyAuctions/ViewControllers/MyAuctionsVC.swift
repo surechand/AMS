@@ -138,7 +138,6 @@ class MyAuctionsVC: FormViewController {
                 self.currentOptions.removeAll()
                 let dateConverter = DateFns()
                 for (index, auction) in self.auctions.enumerated() {
-                    //print(auction.bidders.count)
                     self.form +++
                         AuctionRow () {
                             self.originalOptions.append($0)
@@ -153,7 +152,6 @@ class MyAuctionsVC: FormViewController {
                             cell.textLabel!.textAlignment = .left
                         }.cellSetup { cell, _ in
                             cell.configure(with: AuctionCellModel(auctionName: auction.name, price: auction.price, auctionImageReference: auction.key + "/photo1.jpeg", auctionEndDate: dateConverter.basicDateFromString(string: auction.finishDate)))
-                            let blueGradientImage = CAGradientLayer.blueGradient(on: self.view)
                             cell.backgroundColor = UIColor.AMSColors.transparentWhite
                             cell.layer.borderColor = UIColor.white.cgColor
                             cell.layer.borderWidth = 2.5
