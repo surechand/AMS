@@ -130,7 +130,7 @@ class MyAuctionsVC: FormViewController {
         let user = Auth.auth().currentUser
         if let user = user {    
             let auctionDocument = AuctionDocument(key: chosenAuction.key)
-            auctionDocument.getAuctionDocument(completion: { loadedAuctions in
+            auctionDocument.getMyAuctionsDocument(uid: user.uid, completion: { loadedAuctions in
                 self.auctions = loadedAuctions
                 UIView.setAnimationsEnabled(false)
                 self.form.removeAll()
@@ -138,6 +138,7 @@ class MyAuctionsVC: FormViewController {
                 self.currentOptions.removeAll()
                 let dateConverter = DateFns()
                 for (index, auction) in self.auctions.enumerated() {
+                    //print(auction.bidders.count)
                     self.form +++
                         AuctionRow () {
                             self.originalOptions.append($0)

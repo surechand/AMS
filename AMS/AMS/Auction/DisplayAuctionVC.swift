@@ -137,8 +137,8 @@ class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
                 if let user = user {
                     bidder.id = user.uid
                     self.chosenAuction.bidders.append(bidder)
-                    auctionDocument.setBiddersDocument(bidderId: user.uid, bidder: bidder, auctionKey: chosenAuction.key, completion: { self.loadBidders() })
-//                    auctionDocument.setUserBidsDocument(uid: user.uid, bidder: bidder, auctionKey: chosenAuction.key, completion: { self.loadBidders() })
+                    auctionDocument.setBiddersDocument(bidderId: user.uid, bidder: bidder, auctionKey: chosenAuction.key, completion: {  })
+                    auctionDocument.setUserBidsDocument(uid: user.uid, bidder: bidder, auctionKey: chosenAuction.key, completion: { self.loadBidders() })
                 }
             }
         }
