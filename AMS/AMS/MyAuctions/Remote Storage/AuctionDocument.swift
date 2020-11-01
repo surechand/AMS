@@ -48,12 +48,13 @@ class AuctionDocument : Document {
         }
     }
     
-    func setBiddersDocument(bidderId: String,bidder: Bidder, auctionKey: String, completion: @escaping () -> Void) {
+    func setBiddersDocument(bidderId: String, bidder: Bidder, auctionKey: String, completion: @escaping () -> Void) {
         let batch = db.batch()
-        let biddersRef = self.collectionRef!.document(auctionKey).collection("bidders").document(bidderId)
+        let biddersRef = self.collectionRef!.document(auctionKey).collection("bidders").document(getRandomKey())
         batch.setData([
             "price": bidder.offer,
-            "date": bidder.date
+            "date": bidder.date,
+            "id": bidder.id
         ], forDocument: biddersRef)
         batch.commit() { err in
             if let err = err {
@@ -65,6 +66,25 @@ class AuctionDocument : Document {
             }
         }
     }
+    
+//    func setUserBidsDocument(uid: String, bidder: Bidder, auctionKey: String, completion: @escaping () -> Void) {
+//        let batch = db.batch()
+//        let userBidsRef = db.collection("users").document(uid).collection("bids").document(getRandomKey())
+//        batch.setData([
+//            "price": bidder.offer,
+//            "date": bidder.date,
+//            "auctionId": auctionKey
+//        ], forDocument: userBidsRef)
+//        batch.commit() { err in
+//            if let err = err {
+//                completion()
+//                print("Error writing batch \(err)")
+//            } else {
+//                completion()
+//                print("Batch write succeeded.")
+//            }
+//        }
+//    }
     
     //    MARK: Methods for getting the values for auctions.
     
@@ -149,6 +169,8 @@ class AuctionDocument : Document {
                 bidder.offer = data.value as! Double
             case "date":
                 bidder.date = data.value as! String
+            case "id":
+                bidder.id = data.value as! String
             default:
                 print("Undefined key.")
             }

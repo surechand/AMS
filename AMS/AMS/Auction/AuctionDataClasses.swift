@@ -80,14 +80,17 @@ class Auction: DateFns, SearchItem, Equatable, CustomStringConvertible {
 class Bidder {
     var offer: Double
     var date: String
+    var id: String
     
     init() {
         self.offer = 0
         self.date = ""
+        self.id = ""
     }
     
     func assign(bidderToAssign: Bidder) {
         self.offer = bidderToAssign.offer
         self.date = bidderToAssign.date
+        self.id = bidderToAssign.id
     }
 }

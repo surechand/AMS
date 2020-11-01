@@ -128,14 +128,17 @@ class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
         if(!(offerTextInput.text?.isEmpty ?? false)) {
             let bidder = Bidder()
             bidder.offer = Double(offerTextInput.text!)!
-            let isBigger = chosenAuction.bidders.map{ $0.offer < bidder.offer }.isEmpty
-            if (isBigger) {
+            let isBigger = chosenAuction.bidders.map{ $0.offer < bidder.offer }.allSatisfy({ $0 })
+            if isBigger {
                 bidder.date = self.chosenAuction.stringFromDate(date: Date())
-                self.chosenAuction.bidders.append(bidder)
+                //self.chosenAuction.bidders.append(bidder)
                 let user = Auth.auth().currentUser
                 let auctionDocument = AuctionDocument(key: chosenAuction.key)
                 if let user = user {
-                    auctionDocument.setBiddersDocument(bidderId: user.uid, bidder: bidder, auctionKey: chosenAuction.key, completion: {self.loadBidders()})
+                    bidder.id = user.uid
+                    self.chosenAuction.bidders.append(bidder)
+                    auctionDocument.setBiddersDocument(bidderId: user.uid, bidder: bidder, auctionKey: chosenAuction.key, completion: { self.loadBidders() })
+//                    auctionDocument.setUserBidsDocument(uid: user.uid, bidder: bidder, auctionKey: chosenAuction.key, completion: { self.loadBidders() })
                 }
             }
         }
