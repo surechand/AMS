@@ -57,7 +57,7 @@ class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
     }
     
     func setButton () {
-        bidButton.isEnabled = self.chosenAuction.compareDates(startDate: self.chosenAuction.startDate, finishDate: self.chosenAuction.finishDate)
+        bidButton.isEnabled = Date() < self.chosenAuction.dateFromString(string: self.chosenAuction.finishDate)! ? true : false
         bidButton.layer.borderColor = bidButton.isEnabled ? UIColor(patternImage: gradientImage).cgColor : UIColor.gray.cgColor
         bidButton.layer.borderWidth = 3.0
         bidButton.setTitle("BID", for: .normal)
@@ -129,7 +129,7 @@ class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
             let bidder = Bidder()
             bidder.offer = Double(offerTextInput.text!)!
             let isBigger = chosenAuction.bidders.map{ $0.offer < bidder.offer }.allSatisfy({ $0 })
-            if isBigger {
+            if isBigger || chosenAuction.bidders.isEmpty {
                 bidder.date = self.chosenAuction.stringFromDate(date: Date())
                 //self.chosenAuction.bidders.append(bidder)
                 let user = Auth.auth().currentUser
