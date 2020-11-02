@@ -157,6 +157,18 @@ class AuctionDocument : Document {
         }
     }
     
+    func getHighestBidder(completion: @escaping (String) -> Void) {
+        (self.collectionRef?.document(self.key).collection( "bidders").order(by: "price", descending: true).limit(to: 1))!.getDocuments(completion: { (querySnapshot, err) in
+        for document in querySnapshot!.documents {
+            for data in document.data() {
+                if (data.key == "id") {
+                    completion(data.value as! String)
+                }
+            }
+        }})
+        completion("")
+    }
+    
     //    Assigning data to a auction.
     func manageLoadedAuctionData (auction: Auction, data: [String:Any]) {
         for data in data {
