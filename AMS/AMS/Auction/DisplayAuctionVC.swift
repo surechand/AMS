@@ -19,6 +19,7 @@ class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
     @IBOutlet weak var auctionImageView: UIImageView!
     
     @IBOutlet weak var biddersTextView: UITextView!
+    let user = Auth.auth().currentUser
     var chosenAuction = Auction(name: "")
     
     var auctionDelegate: passAuction?
@@ -38,7 +39,6 @@ class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
         
         offerTextInput.attributedPlaceholder = NSAttributedString(string: "Enter your offer",
                                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray5])
-        self.setButton()
         let storage = Storage.storage()
         let storageRef = storage.reference()
         let imgRef = storageRef.child(self.chosenAuction.key + "/photo" + String(imageIndex) + ".jpeg")
@@ -57,93 +57,118 @@ class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
     }
     
     func setButton () {
-        bidButton.isEnabled = Date() < self.chosenAuction.dateFromString(string: self.chosenAuction.finishDate)! ? true : false
+        if let user = user {
+            bidButton.isEnabled =  Date() < self.chosenAuction.dateFromString(string: self.chosenAuction.finishDate)! || user.uid != self.chosenAuction.sellerId
+        }
         bidButton.layer.borderColor = bidButton.isEnabled ? UIColor(patternImage: gradientImage).cgColor : UIColor.gray.cgColor
         bidButton.layer.borderWidth = 3.0
         bidButton.setTitle("BID", for: .normal)
         bidButton.setTitleColor(bidButton.isEnabled ? theme  : UIColor.gray, for: .normal)
     }
     
-    func setPaddingAndBorders (textField: UITextField) {
-        let paddingView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 20))
-        textField.leftView = paddingView
-        textField.leftViewMode = .always
-        textField.layer.borderColor = theme?.cgColor
-        textField.layer.borderWidth = 3.0
-    }
-    
-    //    MARK: Protocol stubs.
-    
-    func finishPassing(chosenAuction: Auction) {
-        self.chosenAuction = chosenAuction
-        self.theme = .systemIndigo
-        self.gradientImage = CAGradientLayer.blueGradient(on: self.view)!
-        self.loadBidders()
-        self.loadAuctionDetails()
-        self.viewDidLoad()
-    }
-    
-    func finishPassingFromPlans(chosenAuction: Auction) {
-        self.chosenAuction = chosenAuction
-        self.theme = .systemPink
-        gradientImage = CAGradientLayer.pinkGradient(on: self.view)!
-        self.loadBidders()
-        self.loadAuctionDetails()
-        self.viewDidLoad()
-    }
-    
-    //    MARK: Assigning data to labels and text views.
-    
-    func setLabels () {
-        titleLabel.text = " " +  self.chosenAuction.name + " "
-        dateLabel.text = " " + self.chosenAuction.basicDateFromString(string: self.chosenAuction.startDate) + "-" + self.chosenAuction.basicDateFromString(string: self.chosenAuction.finishDate)
-        titleLabel.layer.borderColor = UIColor(patternImage: gradientImage).cgColor
-        titleLabel.layer.borderWidth = 3.0
-        titleLabel.textColor = theme
-        dateLabel.textColor = UIColor.lightGray
-    }
-    
-    func loadAuctionDetails () {
-        auctionDetailsTextView.text += "\n"
-        auctionDetailsTextView.text += "Description: " + String(self.chosenAuction.description) + "\n"
-        auctionDetailsTextView.text += "Parameters: " + String(self.chosenAuction.parameters) + "\n"
-        auctionDetailsTextView.text += "Shipping details: " + String(self.chosenAuction.shippingDetails) + "\n"
-        self.setTextViewAppearance(textView: auctionDetailsTextView)
-    }
-    
-    func loadBidders () {
-        self.biddersTextView.text = ""
-        if (chosenAuction.bidders.isEmpty) {
-            biddersTextView.text += "There are no bidders yet."
-        } else {
-            for bidder in chosenAuction.bidders {
-                biddersTextView.text += "\n" + String(bidder.offer) + "€         " + self.chosenAuction.basicDateFromString(string: bidder.date)
-            }
-            biddersTextView.text += "\n"
+    func auctionFinished() {
+        let auctionDocument = AuctionDocument(key: self.chosenAuction.key)
+        auctionDocument.getHighestBidder(completion: { id in
+            self.chosenAuction.buyerId = id
+            self.biddersTextView.text = ""
+            if (self.chosenAuction.buyerId != "") {
+                self.biddersTextView.text += "Your auction has ended. The buyer is: \n"
+                let userDocument = UserDocument(uid: id)
+                userDocument.getUserDocument(handler: { data in
+                    self.biddersTextView.text += (data["name"] as! String) + " " + (data["surname"] as! String)
+                    self.biddersTextView.text += (data["email"] as! String) + "\n" + (data["phoneNumber"] as! String)
+                    self.setTextViewAppearance(textView: self.biddersTextView)
+                })
+            } else { self.biddersTextView.text += "Your auction has ended. There is no buyer."
         }
-        self.setTextViewAppearance(textView: biddersTextView)
+        self.setTextViewAppearance(textView: self.biddersTextView)
+    })
+}
+
+func setPaddingAndBorders (textField: UITextField) {
+    let paddingView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 20))
+    textField.leftView = paddingView
+    textField.leftViewMode = .always
+    textField.layer.borderColor = theme?.cgColor
+    textField.layer.borderWidth = 3.0
+}
+
+//    MARK: Protocol stubs.
+
+func finishPassing(chosenAuction: Auction) {
+    self.chosenAuction = chosenAuction
+    self.theme = .systemIndigo
+    self.gradientImage = CAGradientLayer.blueGradient(on: self.view)!
+    loadAfterPassing()
+}
+
+func finishPassingFromAuctions(chosenAuction: Auction) {
+    self.chosenAuction = chosenAuction
+    self.theme = .systemPink
+    gradientImage = CAGradientLayer.pinkGradient(on: self.view)!
+    loadAfterPassing()
+}
+
+func loadAfterPassing() {
+    if let user = user {
+        self.chosenAuction.sellerId == user.uid && Date() > self.chosenAuction.dateFromString(string: self.chosenAuction.finishDate)! ? self.auctionFinished() : self.loadBidders()
     }
-    
-    @IBAction func placeBid(_ sender: Any) {
-        if(!(offerTextInput.text?.isEmpty ?? false)) {
-            let bidder = Bidder()
-            bidder.offer = Double(offerTextInput.text!)!
-            let isBigger = chosenAuction.bidders.map{ $0.offer < bidder.offer }.allSatisfy({ $0 })
-            if isBigger || chosenAuction.bidders.isEmpty {
-                bidder.date = self.chosenAuction.stringFromDate(date: Date())
-                //self.chosenAuction.bidders.append(bidder)
-                let user = Auth.auth().currentUser
-                let auctionDocument = AuctionDocument(key: chosenAuction.key)
-                if let user = user {
-                    bidder.id = user.uid
-                    self.chosenAuction.bidders.append(bidder)
-                    auctionDocument.setBiddersDocument(bidderId: user.uid, bidder: bidder, auctionKey: chosenAuction.key, completion: {  })
-                    auctionDocument.setUserBidsDocument(uid: user.uid, bidder: bidder, auctionKey: chosenAuction.key, completion: { self.loadBidders() })
-                }
+    self.setButton()
+    self.loadAuctionDetails()
+    self.viewDidLoad()
+}
+
+//    MARK: Assigning data to labels and text views.
+
+func setLabels () {
+    titleLabel.text = " " +  self.chosenAuction.name + " "
+    dateLabel.text = " " + self.chosenAuction.basicDateFromString(string: self.chosenAuction.startDate) + "-" + self.chosenAuction.basicDateFromString(string: self.chosenAuction.finishDate)
+    titleLabel.layer.borderColor = UIColor(patternImage: gradientImage).cgColor
+    titleLabel.layer.borderWidth = 3.0
+    titleLabel.textColor = theme
+    dateLabel.textColor = UIColor.lightGray
+}
+
+func loadAuctionDetails () {
+    auctionDetailsTextView.text += "\n"
+    auctionDetailsTextView.text += "Description: " + String(self.chosenAuction.description) + "\n"
+    auctionDetailsTextView.text += "Parameters: " + String(self.chosenAuction.parameters) + "\n"
+    auctionDetailsTextView.text += "Shipping details: " + String(self.chosenAuction.shippingDetails) + "\n"
+    self.setTextViewAppearance(textView: auctionDetailsTextView)
+}
+
+func loadBidders () {
+    self.biddersTextView.text = ""
+    if (chosenAuction.bidders.isEmpty) {
+        biddersTextView.text += "There are no bidders yet."
+    } else {
+        for bidder in chosenAuction.bidders {
+            biddersTextView.text += "\n" + String(bidder.offer) + "€         " + self.chosenAuction.basicDateFromString(string: bidder.date)
+        }
+        biddersTextView.text += "\n"
+    }
+    self.setTextViewAppearance(textView: biddersTextView)
+}
+
+@IBAction func placeBid(_ sender: Any) {
+    if(!(offerTextInput.text?.isEmpty ?? false)) {
+        let bidder = Bidder()
+        bidder.offer = Double(offerTextInput.text!)!
+        let isBigger = chosenAuction.bidders.map{ $0.offer < bidder.offer }.allSatisfy({ $0 })
+        if isBigger || chosenAuction.bidders.isEmpty {
+            bidder.date = self.chosenAuction.stringFromDate(date: Date())
+            //self.chosenAuction.bidders.append(bidder)
+            let auctionDocument = AuctionDocument(key: chosenAuction.key)
+            if let user = user {
+                bidder.id = user.uid
+                self.chosenAuction.bidders.append(bidder)
+                auctionDocument.setBiddersDocument(bidderId: user.uid, bidder: bidder, auctionKey: chosenAuction.key, completion: {  })
+                auctionDocument.setUserBidsDocument(uid: user.uid, bidder: bidder, auctionKey: chosenAuction.key, completion: { self.loadBidders() })
             }
         }
     }
-    
+}
+
 }
 
 //MARK: - UITextView extension for height adjustment.

@@ -65,4 +65,14 @@ class UserDocument {
             }
         })
     }
+    
+    func getUserDocument(handler: @escaping (Dictionary<String, Any>) -> Void) {
+        self.userRef?.getDocument(completion: { (querySnapshot, error) in
+            if let error = error {
+                print(error)
+            } else if let document = querySnapshot, document.exists {
+                handler(document.data()!)
+            }
+        })
+    }
 }
