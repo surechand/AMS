@@ -30,6 +30,7 @@ class EditUserDataVC: FormViewController, passTheme {
         self.initiateAddressForm()
         self.initiateEmailAndPhoneNumberForm()
         self.initiatePasswordForm()
+        self.initiateUserDeleteForm()
     }
     
     func finishPassing(theme: UIColor, gradient: UIImage) {
@@ -247,6 +248,96 @@ class EditUserDataVC: FormViewController, passTheme {
             .onRowValidationChanged(validationErrorsCallback(cell:row:))
     }
     
+    func initiateUserDeleteForm() {
+        form
+            +++ Section()
+            <<< ButtonRow("deleteProfile") {
+                $0.title = "Delete profile"
+            }.cellUpdate({ cell, row in
+                cell.textLabel?.textColor = .systemRed
+            })
+            .onCellSelection({ cell, row in
+                
+                let deletionAlert = UIAlertController(title: "Do you want to delete your profile?", message: "You won't be able to recover it!", preferredStyle: .alert)
+                deletionAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+                deletionAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+                    let userCollerctionRef = Firestore.firestore().collection("users")
+                    let user = Auth.auth().currentUser
+                    
+                    if let user = user {
+                        
+                        userCollerctionRef.document(user.uid).collection("bids").getDocuments() { (querySnapshot, err) in
+                            if let err = err {
+                                print("Failed to delete user Bids, \(err)")
+                                return
+                            } else {
+                                querySnapshot?.documents.forEach({
+                                    $0.reference.delete()
+                                })
+                                print("User bids succesfully deleted")
+                            }
+                        }
+                                                
+                        userCollerctionRef.document(user.uid).delete() { err in
+                            if let err = err {
+                                print("Failed to delete user document: \(err)")
+                                return
+                            } else {
+                                print("User document succesfully deleted")
+                            }
+                        }
+                        
+                        ImageManagement.shareInstance.deleteImage()
+
+                        user.delete { err in
+                            if let err = err {
+                                print("Error deleting user \(err)")
+                                if let errCode = AuthErrorCode(rawValue: err._code) {
+                                    if errCode == .requiresRecentLogin {
+                                        
+                                        var relogAlert = UIAlertController(title: "Login needed", message: "You need to login again for safe account delete.", preferredStyle: .alert)
+                                        relogAlert.addTextField(configurationHandler: { textField in
+                                            textField.placeholder = "Login email"
+                                        })
+                                        relogAlert.addTextField(configurationHandler: { textField in
+                                            textField.placeholder = "Password"
+                                            textField.isSecureTextEntry = true
+                                        })
+                                        relogAlert.addAction(UIAlertAction(title: "Login", style: .cancel, handler: { [weak relogAlert] (_) in
+                                            let login = (relogAlert!.textFields![0] as UITextField).text
+                                            let password = (relogAlert!.textFields![1] as UITextField).text
+                                            let credential: AuthCredential = EmailAuthProvider.credential(withEmail: login ?? "", password: password ?? "")
+                                            
+                                            user.reauthenticate(with: credential) { result, error in
+                                                if let error = error {
+                                                    print("Error during relog; deletion impossible: \(error)")
+                                                } else {
+                                                    user.delete() { error in
+                                                        if let error = error {
+                                                            print("Error deleting user account after relog; deletion impossible: \(error)")
+                                                        } else {
+                                                            print("Succesfully deleted user account: \(error)")
+                                                            self.performSegue(withIdentifier: "EditToLoginSegue", sender: self)
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }))
+                                        self.present(relogAlert, animated: true, completion: nil)
+                                    }
+                                }
+                            } else {
+                                print("Succesfully deleted user account")
+                                self.performSegue(withIdentifier: "EditToLoginSegue", sender: self)
+                            }
+                        }
+
+                    }
+                }))
+                self.present(deletionAlert, animated: true, completion: nil)
+            })
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         var allValid = true
         if form.validate().isEmpty {
@@ -254,11 +345,7 @@ class EditUserDataVC: FormViewController, passTheme {
         } else {
             allValid = false
         }
-//        for row in self.form.rows {
-//            if !row.isValid {
-//                allValid = false
-//            }
-//        }
+
         if allValid == true {
             let user = Auth.auth().currentUser
             if let user = user {
