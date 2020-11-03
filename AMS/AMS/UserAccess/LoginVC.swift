@@ -23,7 +23,8 @@ class LoginVC: UIViewController {
     
     @IBOutlet weak var LoginTextField: UITextField!
     @IBOutlet weak var PasswordTextField: UITextField!
-
+    @IBOutlet weak var appIcon: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,6 +40,8 @@ class LoginVC: UIViewController {
         self.setPaddingAndBorders(textField: LoginTextField)
         self.setBorders(button: LoginButton)
         self.setBorders(button: RegisterButton)
+        
+        setLayerShadow(layer: appIcon.layer)
         
         LoginTextField.attributedPlaceholder = NSAttributedString(string: "Email adress",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray5])
@@ -97,6 +100,14 @@ class LoginVC: UIViewController {
         textField.leftViewMode = .always
         textField.layer.borderColor = UIColor.white.cgColor
         textField.layer.borderWidth = 3.0
+    }
+    
+    func setLayerShadow (layer: CALayer) {
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowRadius = 2.5
+        layer.shadowOpacity = 0.8
+        layer.shadowOffset = CGSize(width: 2, height: 2)
+        layer.masksToBounds = false
     }
     
 }

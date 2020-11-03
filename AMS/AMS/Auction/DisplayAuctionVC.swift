@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
+class DisplayAuctionVC: UIViewController, passAuction, passTheme, UITextViewDelegate {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
@@ -26,6 +26,7 @@ class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
     
     var theme: UIColor?
     var gradientImage = UIImage()
+    let viewCustomisation = ViewCustomisation()
     
     var imageIndex = 1
     
@@ -33,16 +34,22 @@ class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
         super.viewDidLoad()
         
         self.setLabels()
-        self.view.backgroundColor = UIColor.white
         self.setPaddingAndBorders(textField: offerTextInput)
         
         offerTextInput.attributedPlaceholder = NSAttributedString(string: "Enter your offer",
                                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray5])
+        
         let storage = Storage.storage()
         let storageRef = storage.reference()
         let imgRef = storageRef.child(self.chosenAuction.key + "/photo" + String(imageIndex) + ".jpeg")
         self.auctionImageView.sd_setImage(with: imgRef, placeholderImage: UIImage(systemName: "bag"))
+        setLayerShadow(layer: auctionImageView.layer)
         
+        if theme == UIColor.AMSColors.lighterBlue {
+            self.viewCustomisation.setBlueBackgroundGradient(view: self.view)
+        } else if theme == UIColor.AMSColors.yellow {
+            self.viewCustomisation.setYellowBackgroundGradient(view: self.view)
+        }
     }
     
     func setTextViewAppearance(textView: UITextView) {
@@ -50,20 +57,25 @@ class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
         textView.showsHorizontalScrollIndicator = false
         //        textView.adjustUITextViewHeight()
         textView.textContainerInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        textView.layer.borderColor = UIColor(patternImage: gradientImage).cgColor
-        textView.layer.borderWidth = 3.0
-        textView.textColor = theme
+        textView.layer.borderColor = UIColor.white.cgColor
+        textView.layer.borderWidth = 2.5
+        setLayerShadow(layer: textView.layer)
+        textView.clipsToBounds = true
+        textView.textColor = .white
     }
     
     func setButtons () {
         if let user = user {
             bidButton.isEnabled =  Date() < self.chosenAuction.dateFromString(string: self.chosenAuction.finishDate)! || user.uid != self.chosenAuction.sellerId
+            
             endButton.isHidden = !(self.chosenAuction.sellerId == user.uid && Date() < self.chosenAuction.dateFromString(string: self.chosenAuction.finishDate)!)
         }
-        bidButton.layer.borderColor = bidButton.isEnabled ? UIColor(patternImage: gradientImage).cgColor : UIColor.gray.cgColor
-        bidButton.layer.borderWidth = 3.0
+        bidButton.layer.borderColor = bidButton.isEnabled ? UIColor.white.cgColor : UIColor.gray.cgColor
+        bidButton.layer.borderWidth = 2.5
         bidButton.setTitle("BID", for: .normal)
-        bidButton.setTitleColor(bidButton.isEnabled ? theme  : UIColor.gray, for: .normal)
+        bidButton.setTitleColor(bidButton.isEnabled ? .white : UIColor.gray, for: .normal)
+        setLayerShadow(layer: bidButton.layer)
+        setLayerShadow(layer: endButton.layer)
     }
     
     func auctionFinished() {
@@ -89,18 +101,29 @@ func setPaddingAndBorders (textField: UITextField) {
     let paddingView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 20))
     textField.leftView = paddingView
     textField.leftViewMode = .always
-    textField.layer.borderColor = theme?.cgColor
-    textField.layer.borderWidth = 3.0
+    textField.layer.borderColor = UIColor.white.cgColor
+    textField.layer.borderWidth = 2.5
 }
+    
+    func setLayerShadow (layer: CALayer) {
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowRadius = 2.5
+        layer.shadowOpacity = 0.8
+        layer.shadowOffset = CGSize(width: 2, height: 2)
+        layer.masksToBounds = false
+    }
 
 //    MARK: Protocol stubs.
 
 func finishPassing(chosenAuction: Auction) {
     self.chosenAuction = chosenAuction
-    self.theme = .systemIndigo
-    self.gradientImage = CAGradientLayer.blueGradient(on: self.view)!
     loadAfterPassing()
 }
+    
+    func finishPassing(theme: UIColor, gradient: UIImage) {
+        self.theme = theme
+        self.gradientImage = gradient
+    }
 
 func finishPassingFromAuctions(chosenAuction: Auction) {
     self.chosenAuction = chosenAuction
@@ -122,11 +145,16 @@ func loadAfterPassing() {
 
 func setLabels () {
     titleLabel.text = " " +  self.chosenAuction.name + " "
-    dateLabel.text = " " + self.chosenAuction.basicDateFromString(string: self.chosenAuction.startDate) + "-" + self.chosenAuction.basicDateFromString(string: self.chosenAuction.finishDate)
-    titleLabel.layer.borderColor = UIColor(patternImage: gradientImage).cgColor
-    titleLabel.layer.borderWidth = 3.0
-    titleLabel.textColor = theme
-    dateLabel.textColor = UIColor.lightGray
+    titleLabel.layer.borderColor = UIColor.white.cgColor
+    titleLabel.layer.borderWidth = 2.5
+    setLayerShadow(layer: titleLabel.layer)
+    titleLabel.textColor = .white
+    
+    dateLabel.text = " " + self.chosenAuction.basicDateFromString(string: self.chosenAuction.startDate) + " - " + self.chosenAuction.basicDateFromString(string: self.chosenAuction.finishDate)
+    dateLabel.textColor = .white
+    setLayerShadow(layer: dateLabel.layer)
+    
+    setLayerShadow(layer: offerTextInput.layer)
 }
 
 func loadAuctionDetails () {

@@ -308,7 +308,7 @@
                                 <textInputTraits key="textInputTraits" textContentType="username"/>
                             </textField>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icontransparent" translatesAutoresizingMaskIntoConstraints="NO" id="xSj-qj-Nw4">
-                                <rect key="frame" x="107" y="121" width="200" height="200"/>
+                                <rect key="frame" x="-18" y="52" width="450" height="450"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
@@ -322,11 +322,12 @@
                         <outlet property="LoginTextField" destination="KYF-Hd-sew" id="58Z-Ti-Fkc"/>
                         <outlet property="PasswordTextField" destination="i7K-qD-vrr" id="nBR-iJ-60q"/>
                         <outlet property="RegisterButton" destination="EL4-BN-wEy" id="nr8-IV-MiK"/>
+                        <outlet property="appIcon" destination="xSj-qj-Nw4" id="NNB-Nv-A1a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="31V-kn-lA0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5467" y="888"/>
+            <point key="canvasLocation" x="-5468.115942028986" y="887.94642857142856"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -520,7 +521,7 @@
     <resources>
         <image name="bag" catalog="system" width="128" height="128"/>
         <image name="dollarsign.circle" catalog="system" width="128" height="121"/>
-        <image name="icontransparent" width="1920" height="1920"/>
+        <image name="icontransparent" width="1024" height="1024"/>
         <image name="person.crop.circle" catalog="system" width="128" height="121"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
