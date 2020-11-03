@@ -17,7 +17,7 @@ class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
     @IBOutlet weak var offerTextInput: UITextField!
     @IBOutlet weak var auctionDetailsTextView: UITextView!
     @IBOutlet weak var auctionImageView: UIImageView!
-    
+    @IBOutlet weak var endButton: UIButton!
     @IBOutlet weak var biddersTextView: UITextView!
     let user = Auth.auth().currentUser
     var chosenAuction = Auction(name: "")
@@ -33,7 +33,6 @@ class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
         super.viewDidLoad()
         
         self.setLabels()
-        
         self.view.backgroundColor = UIColor.white
         self.setPaddingAndBorders(textField: offerTextInput)
         
@@ -56,9 +55,10 @@ class DisplayAuctionVC: UIViewController, passAuction, UITextViewDelegate {
         textView.textColor = theme
     }
     
-    func setButton () {
+    func setButtons () {
         if let user = user {
             bidButton.isEnabled =  Date() < self.chosenAuction.dateFromString(string: self.chosenAuction.finishDate)! || user.uid != self.chosenAuction.sellerId
+            endButton.isHidden = !(self.chosenAuction.sellerId == user.uid && Date() < self.chosenAuction.dateFromString(string: self.chosenAuction.finishDate)!)
         }
         bidButton.layer.borderColor = bidButton.isEnabled ? UIColor(patternImage: gradientImage).cgColor : UIColor.gray.cgColor
         bidButton.layer.borderWidth = 3.0
@@ -113,7 +113,7 @@ func loadAfterPassing() {
     if let user = user {
         self.chosenAuction.sellerId == user.uid && Date() > self.chosenAuction.dateFromString(string: self.chosenAuction.finishDate)! ? self.auctionFinished() : self.loadBidders()
     }
-    self.setButton()
+    self.setButtons()
     self.loadAuctionDetails()
     self.viewDidLoad()
 }
@@ -150,7 +150,36 @@ func loadBidders () {
     self.setTextViewAppearance(textView: biddersTextView)
 }
 
-@IBAction func placeBid(_ sender: Any) {
+    @IBAction func endButtonPressed(_ sender: UIButton) {
+        if let user = user {
+            if Date() < chosenAuction.dateFromString(string: chosenAuction.finishDate)! {
+                let confirmAlert = UIAlertController(title: "End auction?", message: "Do you really want to manually end auction?", preferredStyle: .alert)
+                confirmAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { [self] alert in
+                    // Ending auction
+                    
+                    // Finish date setting
+                    chosenAuction.finishDate = chosenAuction.stringFromDate(date: Date())
+                    
+                    // Setting end price and winner
+                    if chosenAuction.bidders.isNotEmpty {
+                        let sortedBidders = chosenAuction.bidders.sorted(by: { $0.offer > $1.offer })
+                        chosenAuction.price = sortedBidders.first!.offer
+                        chosenAuction.buyerId = sortedBidders.first!.id
+                    } else {
+                        chosenAuction.price = chosenAuction.startingPrice
+                    }
+                    
+                    let auctionDocument = AuctionDocument(key: chosenAuction.key)
+                    auctionDocument.updateAuctionDocument(auction: chosenAuction, completion: { self.dismiss(animated: true, completion: nil) })
+                }))
+                confirmAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+                
+                self.present(confirmAlert, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    @IBAction func placeBid(_ sender: Any) {
     if(!(offerTextInput.text?.isEmpty ?? false)) {
         let bidder = Bidder()
         bidder.offer = Double(offerTextInput.text!)!
