@@ -58,12 +58,14 @@ class AuctionsVC: FormViewController {
             self.themeDelegate = destinationVC
             self.auctionDelegate?.finishPassing(chosenAuction: chosenAuction)
             self.themeDelegate?.finishPassing(theme: UIColor.AMSColors.lighterBlue, gradient: UIImage())
-        } else if let destinationVC = segue.destination as? DisplayAuctionVC{
+        } else if let destinationVC = segue.destination as? DisplayAuctionVC {
             self.auctionDelegate = destinationVC
-            self.auctionDelegate?.finishPassing(chosenAuction: chosenAuction)
-        } else if let destinationVC = segue.destination as? DisplayProfileVC{
             self.themeDelegate = destinationVC
-            self.themeDelegate?.finishPassing(theme: UIColor.systemIndigo, gradient: CAGradientLayer.blueGradient(on: self.view)!)
+            self.themeDelegate?.finishPassing(theme: UIColor.AMSColors.lighterBlue, gradient: CAGradientLayer.blueGradient(on: destinationVC.view)!)
+            self.auctionDelegate?.finishPassing(chosenAuction: chosenAuction)
+        } else if let destinationVC = segue.destination as? DisplayProfileVC {
+            self.themeDelegate = destinationVC
+            self.themeDelegate?.finishPassing(theme: UIColor.AMSColors.lighterBlue, gradient: CAGradientLayer.blueGradient(on: self.view)!)
         }
     }
     //    MARK: Form handling.
