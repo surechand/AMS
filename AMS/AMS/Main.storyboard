@@ -96,7 +96,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email adress" textAlignment="natural" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="hji-Uw-yzx">
-                                <rect key="frame" x="20" y="758" width="266" height="50"/>
+                                <rect key="frame" x="20" y="758" width="228" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" systemColor="systemGrayColor"/>
@@ -107,19 +107,20 @@
                                 <rect key="frame" x="20" y="20" width="374" height="55"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" red="0.67450980390000004" green="0.16862745100000001" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <gestureRecognizers/>
                                 <fontDescription key="fontDescription" name="HiraginoSans-W6" family="Hiragino Sans" pointSize="34"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="efT-ma-may">
-                                <rect key="frame" x="20" y="79" width="374" height="39"/>
+                                <rect key="frame" x="20" y="79" width="276" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aAM-Td-aNN">
-                                <rect key="frame" x="294" y="758" width="100" height="50"/>
+                                <rect key="frame" x="256" y="758" width="138" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HiraginoSans-W6" family="Hiragino Sans" pointSize="30"/>
                                 <state key="normal" title="BID"/>
@@ -138,6 +139,16 @@
                                 <rect key="frame" x="20" y="126" width="374" height="213"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JH5-dE-xG2">
+                                <rect key="frame" x="304" y="79" width="90" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="End Auction">
+                                    <color key="titleColor" systemColor="systemRedColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="endButtonPressed:" destination="8dS-zr-tCA" eventType="touchUpInside" id="WjY-pd-9Z9"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Wel-hV-jdJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -149,6 +160,7 @@
                         <outlet property="bidButton" destination="aAM-Td-aNN" id="qX2-vI-Gja"/>
                         <outlet property="biddersTextView" destination="eCa-AY-FEI" id="2IC-S6-Ymk"/>
                         <outlet property="dateLabel" destination="efT-ma-may" id="uTo-z9-d2w"/>
+                        <outlet property="endButton" destination="JH5-dE-xG2" id="V8S-Re-V2n"/>
                         <outlet property="offerTextInput" destination="hji-Uw-yzx" id="BVo-i0-2Pb"/>
                         <outlet property="titleLabel" destination="0AZ-IT-NZF" id="Y2J-QZ-M3S"/>
                     </connections>
@@ -499,10 +511,10 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="a6e-nd-g5a"/>
+        <segue reference="GFb-mv-kpY"/>
         <segue reference="hgd-xa-kap"/>
-        <segue reference="pNN-EA-eyD"/>
-        <segue reference="J2L-GE-3Jd"/>
+        <segue reference="YTv-h8-6Lj"/>
+        <segue reference="zRv-e0-5rg"/>
         <segue reference="Lbm-Vh-Aix"/>
     </inferredMetricsTieBreakers>
     <resources>
@@ -516,6 +528,9 @@
         </systemColor>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

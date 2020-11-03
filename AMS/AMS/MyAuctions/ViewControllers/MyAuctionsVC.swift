@@ -145,6 +145,17 @@ class MyAuctionsVC: FormViewController {
                             $0.tag = String(index)
                             $0.title = auction.name
                             $0.onCellSelection(self.assignCellRow)
+                            
+                            let deleteAuctionAction = SwipeAction(style: .destructive, title: "Delete", handler: { (action, row, completionHandler) in
+                                
+                                let deleteAuctionDocument = AuctionDocument(key: auction.key)
+                                deleteAuctionDocument.deleteAuctionDocument(uid: user.uid, auction: auction)
+                                completionHandler?(true)
+                                self.initiateForm()
+                            })
+                            
+                            $0.trailingSwipe.actions = [deleteAuctionAction]
+                            $0.trailingSwipe.performsFirstActionWithFullSwipe = false
                         }.cellUpdate { cell, row in
                             cell.textLabel?.textColor = UIColor.white
                             cell.indentationLevel = 2

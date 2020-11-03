@@ -48,6 +48,34 @@ class AuctionDocument : Document {
         }
     }
     
+    func updateAuctionDocument(auction: Auction, completion: @escaping () -> Void) {
+        let auctionRef = self.collectionRef?.document(self.key)
+        
+        auctionRef?.updateData([
+            "name": auction.name,
+            "key": auction.key,
+            "description": auction.description,
+            "parameters": auction.parameters,
+            "shippingDetails": auction.shippingDetails,
+            "startingPrice": auction.startingPrice,
+            "price": auction.price,
+            
+            "sellerId": auction.sellerId,
+            "buyerId": auction.buyerId,
+            "startDate": auction.startDate,
+            "finishDate": auction.finishDate
+        ]) { err in
+            if let err = err {
+                print("Error updating auction document: \(err)")
+            } else {
+                print("Auction document updated")
+                completion()
+            }
+        }
+        
+        
+    }
+    
     func setBiddersDocument(bidderId: String, bidder: Bidder, auctionKey: String, completion: @escaping () -> Void) {
         let batch = db.batch()
         let biddersRef = self.collectionRef!.document(auctionKey).collection("bidders").document(getRandomKey())
