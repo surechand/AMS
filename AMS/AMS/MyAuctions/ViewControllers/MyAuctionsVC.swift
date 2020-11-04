@@ -56,6 +56,7 @@ class MyAuctionsVC: FormViewController {
         
         self.currentOptions = self.originalOptions
         self.viewCustomisation.setYellowGradients(viewController: self)
+        print(self.tabBarController?.viewControllers)
         
     }
     
@@ -152,6 +153,9 @@ class MyAuctionsVC: FormViewController {
                                 
                                 let deleteAuctionDocument = AuctionDocument(key: auction.key)
                                 deleteAuctionDocument.deleteAuctionDocument(uid: user.uid, auction: auction)
+                                
+                                self.refreshAuctionsVC()
+                                
                                 completionHandler?(true)
                                 self.initiateForm()
                             })
@@ -174,6 +178,14 @@ class MyAuctionsVC: FormViewController {
                 self.tableView.reloadData()
                 self.viewDidAppear(false)
             })
+        }
+    }
+    
+    func refreshAuctionsVC() {
+        if let navCon = self.tabBarController?.viewControllers![1] as? UINavigationController {
+            if let auctionsVC = navCon.children[0] as? AuctionsVC {
+                auctionsVC.initiateForm()
+            }
         }
     }
     

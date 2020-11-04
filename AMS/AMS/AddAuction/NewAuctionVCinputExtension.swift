@@ -39,7 +39,9 @@ extension NewAuctionVC {
                 let auctionDocument = AuctionDocument(key: chosenAuction.key)
                 auctionDocument.setAuctionDocument(auction: self.chosenAuction, completion: {
                     let rootVC = self.navigationController!.viewControllers.first as! MyAuctionsVC
+                    let secondVC = (self.tabBarController?.viewControllers![1] as! UINavigationController).children[0] as! AuctionsVC
                     rootVC.initiateForm()
+                    secondVC.initiateForm()
                     self.navigationController?.popToRootViewController(animated: true)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
                 })
