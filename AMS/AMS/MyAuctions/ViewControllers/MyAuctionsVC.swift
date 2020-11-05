@@ -55,9 +55,7 @@ class MyAuctionsVC: FormViewController {
     override func viewDidAppear(_ animated: Bool) {
         
         self.currentOptions = self.originalOptions
-        self.viewCustomisation.setYellowGradients(viewController: self)
-        print(self.tabBarController?.viewControllers)
-        
+        self.viewCustomisation.setYellowGradients(viewController: self)        
     }
     
     func searchControllerSetup () {
@@ -154,10 +152,9 @@ class MyAuctionsVC: FormViewController {
                                 let deleteAuctionDocument = AuctionDocument(key: auction.key)
                                 deleteAuctionDocument.deleteAuctionDocument(uid: user.uid, auction: auction)
                                 
-                                self.refreshAuctionsVC()
+                                self.refreshTableViews()
                                 
                                 completionHandler?(true)
-                                self.initiateForm()
                             })
                             
                             $0.trailingSwipe.actions = [deleteAuctionAction]

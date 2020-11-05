@@ -68,6 +68,13 @@ class AuctionCell: BaseCell, CellType {
         self.layer.cornerRadius = 15
     }
     
+    public func reloadImage(with model: AuctionCellModel) {
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let imgRef = storageRef.child(model.auctionImageReference)
+        auctionImage.sd_setImage(with: imgRef, placeholderImage: UIImage(systemName: "bag"))
+    }
+    
 }
 
 

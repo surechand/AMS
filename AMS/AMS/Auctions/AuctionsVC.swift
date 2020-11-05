@@ -93,6 +93,7 @@ class AuctionsVC: FormViewController {
                 let dateConverter = DateFns()
                 for (index, auction) in self.auctions.enumerated() {
                     //print(auction.bidders.count)
+                    let cellModel = AuctionCellModel(auctionName: auction.name, price: auction.price, auctionImageReference: auction.key + "/photo1.jpeg", auctionEndDate: dateConverter.basicDateFromString(string: auction.finishDate))
                     self.form +++
                         AuctionRow () {
                             self.originalOptions.append($0)
@@ -105,9 +106,9 @@ class AuctionsVC: FormViewController {
                             cell.indentationLevel = 2
                             cell.indentationWidth = 10
                             cell.textLabel!.textAlignment = .left
+                            cell.reloadImage(with: cellModel)
                         }.cellSetup { cell, _ in
-                            cell.configure(with: AuctionCellModel(auctionName: auction.name, price: auction.price, auctionImageReference: auction.key + "/photo1.jpeg", auctionEndDate: dateConverter.basicDateFromString(string: auction.finishDate)))
-                            let blueGradientImage = CAGradientLayer.blueGradient(on: self.view)
+                            cell.configure(with: cellModel)
                             cell.backgroundColor = UIColor.AMSColors.transparentWhite
                             cell.layer.borderColor = UIColor.white.cgColor
                             cell.layer.borderWidth = 2.5

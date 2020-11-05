@@ -32,22 +32,25 @@ extension NewAuctionVC {
             AlertView.showInvalidDataAlert(view: self, theme: themeColor!)
         } else {
             //            add data to Cloud Firestore
-            savePhotoData()
             let user = Auth.auth().currentUser
             if let user = user {
                 chosenAuction.sellerId = user.uid
                 let auctionDocument = AuctionDocument(key: chosenAuction.key)
-                auctionDocument.setAuctionDocument(auction: self.chosenAuction, completion: {
-                    let rootVC = self.navigationController!.viewControllers.first as! MyAuctionsVC
-                    let secondVC = (self.tabBarController?.viewControllers![1] as! UINavigationController).children[0] as! AuctionsVC
-                    rootVC.initiateForm()
-                    secondVC.initiateForm()
+                auctionDocument.setAuctionDocument(auction: self.chosenAuction, completion: {})
+                if (form.rowBy(tag: "photo1") as! ImageRow).value != nil {
+                    savePhotoData {
+                        self.refreshTableViews()
+                        self.navigationController?.popToRootViewController(animated: true)
+                        self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    }
+                } else {
+                    savePhotoData()
+                    self.refreshTableViews()
                     self.navigationController?.popToRootViewController(animated: true)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
-                })
+                }
             }
         }
-        
     }
     
     //    MARK: Input validation.
@@ -96,7 +99,32 @@ extension NewAuctionVC {
         return true
     }
     
-    // ja pierdole ale to woła o tablice i mapowanie
+    func savePhotoData(completion: @escaping () -> Void) {
+        let photoOneRow: ImageRow? = form.rowBy(tag: "photo1")
+        let photoTwoRow: ImageRow? = form.rowBy(tag: "photo2")
+        let photoThreeRow: ImageRow? = form.rowBy(tag: "photo3")
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let photoOneRef = storageRef.child(chosenAuction.key + "/" + photoOneRow!.tag! + ".jpeg")
+        let photoTwoRef = storageRef.child(chosenAuction.key + "/" + photoTwoRow!.tag! + ".jpeg")
+        let photoThreeRef = storageRef.child(chosenAuction.key + "/" + photoThreeRow!.tag! + ".jpeg")
+        if let photoOne = photoOneRow!.value {
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            photoOneRef.putData(photoOne.jpegData(compressionQuality: 0.5)! as Data, metadata: metadata, completion: {_,_ in  completion() })
+        }
+        if let photoTwo = photoTwoRow!.value {
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            photoTwoRef.putData(photoTwo.jpegData(compressionQuality: 0.5)! as Data, metadata: metadata)
+        }
+        if let photoThree = photoThreeRow!.value {
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            photoThreeRef.putData(photoThree.jpegData(compressionQuality: 0.5)! as Data, metadata: metadata)
+        }
+    }
+    
     func savePhotoData() {
         let photoOneRow: ImageRow? = form.rowBy(tag: "photo1")
         let photoTwoRow: ImageRow? = form.rowBy(tag: "photo2")
@@ -120,6 +148,22 @@ extension NewAuctionVC {
             let metadata = StorageMetadata()
             metadata.contentType = "image/jpeg"
             photoThreeRef.putData(photoThree.jpegData(compressionQuality: 0.5)! as Data, metadata: metadata)
+        }
+    }
+}
+
+extension FormViewController {
+    func refreshTableViews() {
+        if let myAuctionsVC = tabBarController?.viewControllers![0].children[0] as? MyAuctionsVC {
+            if myAuctionsVC.tableView != nil {
+                myAuctionsVC.initiateForm()
+            }
+        }
+        
+        if let auctionsVC = tabBarController?.viewControllers![1].children[0] as? AuctionsVC {
+            if auctionsVC.tableView != nil {
+                auctionsVC.initiateForm()
+            }
         }
     }
 }

@@ -259,7 +259,7 @@ class NewAuctionVC: FormViewController, passAuction, passTheme {
         form +++
          ImageRow() {
             $0.tag = "photo1"
-            $0.title = "Auction image 1"
+            $0.title = "Auction image 1 (miniature)"
             $0.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum]
             $0.clearAction = .yes(style: .default)
         }
