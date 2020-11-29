@@ -77,22 +77,28 @@ class AuctionDocument : Document {
     }
     
     func setBiddersDocument(bidderId: String, bidder: Bidder, auctionKey: String, completion: @escaping () -> Void) {
-        let batch = db.batch()
-        let biddersRef = self.collectionRef!.document(auctionKey).collection("bidders").document(getRandomKey())
-        batch.setData([
-            "price": bidder.offer,
-            "date": bidder.date,
-            "id": bidder.id
-        ], forDocument: biddersRef)
-        batch.commit() { err in
-            if let err = err {
-                completion()
-                print("Error writing batch \(err)")
+        let reference = self.collectionRef!.document(auctionKey).collection("bidders").document(getRandomKey())
+        self.getHighestBid(completion: { bid in
+            if(bidder.offer > bid && bid != Double(-1)) {
+                let batch = self.db.batch()
+                batch.setData([
+                    "price": bidder.offer,
+                    "date": bidder.date,
+                    "id": bidder.id
+                ], forDocument: reference)
+                batch.commit() { err in
+                    if let err = err {
+                        completion()
+                        print("Error writing batch \(err)")
+                    } else {
+                        completion()
+                        print("Batch write succeeded.")
+                    }
+                }
             } else {
-                completion()
-                print("Batch write succeeded.")
+                print("Price too low.")
             }
-        }
+        })
     }
     
     func setUserBidsDocument(uid: String, bidder: Bidder, auctionKey: String, completion: @escaping () -> Void) {
@@ -187,14 +193,29 @@ class AuctionDocument : Document {
     
     func getHighestBidder(completion: @escaping (String) -> Void) {
         (self.collectionRef?.document(self.key).collection( "bidders").order(by: "price", descending: true).limit(to: 1))!.getDocuments(completion: { (querySnapshot, err) in
-        for document in querySnapshot!.documents {
-            for data in document.data() {
-                if (data.key == "id") {
-                    completion(data.value as! String)
+            for document in querySnapshot!.documents {
+                for data in document.data() {
+                    if (data.key == "id") {
+                        completion(data.value as! String)
+                    }
                 }
-            }
-        }})
+            }})
         completion("")
+    }
+    
+    func getHighestBid(completion: @escaping (Double) -> Void) {
+        (self.collectionRef?.document(self.key).collection( "bidders").order(by: "price", descending: true).limit(to: 1))!.getDocuments(completion: { (querySnapshot, err) in
+            for document in querySnapshot!.documents {
+                for data in document.data() {
+                    print("bid")
+                    print(data.value)
+                    if (data.key == "price") {
+                        print(data.value)
+                        completion(data.value as! Double)
+                    }
+                }
+            }})
+        completion(Double(-1))
     }
     
     //    Assigning data to a auction.

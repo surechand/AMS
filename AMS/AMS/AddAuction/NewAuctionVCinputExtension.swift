@@ -94,7 +94,6 @@ extension NewAuctionVC {
         return true
     }
     
-    // ja pierdole ale to woła o tablice i mapowanie
     func savePhotoData() {
         let photoOneRow: ImageRow? = form.rowBy(tag: "photo1")
         let photoTwoRow: ImageRow? = form.rowBy(tag: "photo2")
