@@ -1,5 +1,4 @@
 # AMS
-Allegro Mojego Starego
 
 Currently under development:
 displaying auctions & bidding
